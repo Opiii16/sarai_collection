@@ -6,6 +6,7 @@ import HomePage from './components/Homepage/Homepage.jsx';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 import AboutUs from './components/AboutUs/AboutUs.jsx'
+import Navbar from './components/Navbar/Navbar.jsx'
 import Products from './components/Products/Products.jsx'
 import Makepayment from './components/Makepayment/Makepayment.jsx'
 import PaymentSuccess from './components/Makepayment/PaymentSuccess.jsx'
@@ -26,6 +27,7 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/" element={<Footer/>} />
             <Route path="/about-us" element={<AboutUs/>} />
+             <Route path="/" element={<Navbar/>} />    
 
             <Route path="/products" element={<Products/>} />
 
