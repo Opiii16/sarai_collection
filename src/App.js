@@ -16,6 +16,8 @@ function App() {
   return (
     <Router>
       <div className="app-container">
+          <Navbar />
+    
        
         <main className="app-content">
           <Routes>
