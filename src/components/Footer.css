@@ -1,0 +1,133 @@
+.sarai-footer {
+    background: linear-gradient(135deg, #1a1a1a 0%, #2c1b05 50%, #1a1a1a 100%);
+    color: #e0c9a6;
+    padding: 50px 0 20px;
+    font-family: 'Playfair Display', serif;
+  }
+  
+  .footer-content {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    margin-bottom: 30px;
+  }
+  
+  .footer-section {
+    flex: 1;
+    min-width: 250px;
+    margin-bottom: 30px;
+    padding: 0 15px;
+  }
+  
+  .footer-title {
+    color: #d4af37;
+    font-size: 24px;
+    margin-bottom: 20px;
+    font-weight: 700;
+    letter-spacing: 1px;
+  }
+  
+  .footer-heading {
+    color: #d4af37;
+    font-size: 18px;
+    margin-bottom: 20px;
+    font-weight: 600;
+    letter-spacing: 1px;
+  }
+  
+  .footer-text {
+    line-height: 1.6;
+    margin-bottom: 20px;
+  }
+  
+  .footer-links {
+    list-style: none;
+    padding: 0;
+  }
+  
+  .footer-links li {
+    margin-bottom: 10px;
+  }
+  
+  .footer-links a {
+    color: #e0c9a6;
+    text-decoration: none;
+    transition: color 0.3s;
+  }
+  
+  .footer-links a:hover {
+    color: #d4af37;
+  }
+  
+  .social-icons {
+    display: flex;
+    gap: 15px;
+    margin-top: 20px;
+  }
+  
+  .social-icon {
+    color: #e0c9a6;
+    background: rgba(212, 175, 55, 0.1);
+    width: 36px;
+    height: 36px;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: all 0.3s;
+  }
+  
+  .social-icon:hover {
+    background: #d4af37;
+    color: #1a1a1a;
+    transform: translateY(-3px);
+  }
+  
+  .footer-bottom {
+    border-top: 1px solid rgba(212, 175, 55, 0.2);
+    padding-top: 20px;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .footer-bottom p {
+    margin: 0;
+  }
+  
+  .payment-methods {
+    display: flex;
+    gap: 15px;
+    font-size: 24px;
+  }
+  
+  .payment-methods i {
+    opacity: 0.8;
+    transition: opacity 0.3s;
+  }
+  
+  .payment-methods i:hover {
+    opacity: 1;
+  }
+  
+  /* Font Awesome icons */
+  .fab, .fas {
+    font-size: inherit;
+  }
+  
+  @media (max-width: 768px) {
+    .footer-section {
+      flex: 100%;
+      text-align: center;
+    }
+    
+    .social-icons, .payment-methods {
+      justify-content: center;
+    }
+    
+    .footer-bottom {
+      flex-direction: column;
+      gap: 15px;
+    }
+  }

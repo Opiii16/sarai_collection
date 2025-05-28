@@ -1,0 +1,97 @@
+/* Carousel.css */
+
+/* Main carousel container */
+.hero.section {
+    position: relative;
+    height: 750px; /* Medium height */
+    overflow: hidden;
+    margin: 2rem auto;
+    max-width: 1200px; /* Control maximum width */
+    border-radius: 8px;
+    box-shadow: 0 10px 30px rgba(0, 0, 0, 0.2);
+    z-index: 1; /* Ensure it stays above other elements */
+  }
+  
+  /* Carousel base styles */
+  #hero-carousel {
+    height: 100%;
+    margin-top: 0.5; /* Ensure no top margin is cutting content */
+  }
+  
+  .carousel-inner {
+    height: 100%;
+    position: relative;
+    top: 0.5; /* Explicitly set to 0 to prevent cutting */
+  }
+  
+  /* Carousel items */
+  .carousel-item {
+    height: 100%;
+    position: relative;
+    background-color: #000; /* Fallback if image doesn't load */
+    transition: transform 0.6s ease-in-out;
+    top: 0;
+  }
+  
+  /* Images styling - adjusted to prevent cutting */
+  .carousel-item img {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center; /* More precise centering */
+    opacity: 0.8;
+    transition: opacity 0.5s ease;
+    position: absolute;
+    top: 0.5;
+    left: 0;
+  }
+  
+  /* Text container - adjusted positioning */
+  .carousel-container {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    padding: 2rem 3rem;
+    background: linear-gradient(to top, rgba(0, 0, 0, 0.8), transparent);
+    color: white;
+    text-align: left;
+    z-index: 10;
+    transform: translateZ(0); /* Force hardware acceleration */
+  }
+  
+  /* Headings with more precise positioning */
+  .carousel-container h2 {
+    font-family: 'Playfair Display', serif;
+    font-size: 2.2rem;
+    font-weight: 700;
+    margin-bottom: 0.5rem;
+    color: #d4af37; /* Gold color */
+    text-shadow: 1px 1px 3px rgba(0, 0, 0, 0.8);
+    margin-top: 0; /* Remove default margin */
+  }
+  
+  /* Rest of your existing styles remain the same */
+  .btn-get-started {
+    display: inline-block;
+    background: #d4af37;
+    color: #1a1a1a;
+    padding: 0.6rem 1.5rem;
+    border-radius: 4px;
+    text-decoration: none;
+    font-weight: 600;
+    transition: all 0.3s ease;
+    border: 2px solid transparent;
+  }
+  
+  /* ... rest of your existing CSS ... */
+  
+  /* Add this if you have a fixed header */
+  body {
+    padding-top: 0 !important; /* Remove if you have a fixed navbar */
+  }
+  
+  /* Ensure no parent elements are cutting the carousel */
+  #root, .App, .main-container {
+    overflow: visible !important;
+  }

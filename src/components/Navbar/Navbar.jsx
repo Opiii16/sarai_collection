@@ -1,291 +1,193 @@
-import React, { useContext, useEffect, useState } from "react";
-import { StoreContext } from "../../context/StoreContext";
-import "./Navbar.css";
-import { assets } from "../../assets/assets";
-import { Link, useNavigate } from "react-router-dom";
+import React, { useState, useEffect } from 'react';
+import { FaShoppingCart, FaBars, FaTimes, FaUserCircle, FaSun, FaMoon } from 'react-icons/fa';
+import { Link } from 'react-router-dom';
+import './Navbar.css';
 
-const Navbar = ({ setShowLogin, setIsSignUp, refreshTrigger }) => {
-  const { getTotalQuantity, foodList, addToCart } = useContext(StoreContext);
-  const totalQuantity = getTotalQuantity();
-  const navigate = useNavigate();
-
-  const [loggedIn, setLoggedIn] = useState(false);
-  const [user, setUser] = useState({});
-  const [menu, setMenu] = useState("home");
-  const [isMenuOpen, setIsMenuOpen] = useState(false); // State to control menu visibility
-  const [searchQuery, setSearchQuery] = useState(""); // State for search input
-  const [filteredFoods, setFilteredFoods] = useState([]); // State to store filtered food items
-
-  // Check if the user is logged in
-  const checkLoggedIn = () => {
-    const storedUser = localStorage.getItem("user");
-    if (storedUser) {
-      setUser(JSON.parse(storedUser));
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-      setUser({});
-    }
-  };
+const Navbar = () => {
+  const [isNavCollapsed, setIsNavCollapsed] = useState(true);
+  const [isProfileOpen, setIsProfileOpen] = useState(false);
+  const [user, setUser] = useState(null);
+  const [isDarkTheme, setIsDarkTheme] = useState(true); // Default to dark theme
 
   useEffect(() => {
-    checkLoggedIn();
-  }, [refreshTrigger]);
+     // Check for saved theme preference
+     const savedTheme = localStorage.getItem('theme');
+     const prefersDark = window.matchMedia('(prefers-color-scheme: dark)').matches;
+     
+     if (savedTheme) {
+       setIsDarkTheme(savedTheme === 'dark');
+       document.documentElement.setAttribute('data-theme', savedTheme);
+     } else if (prefersDark) {
+       setIsDarkTheme(true);
+       document.documentElement.setAttribute('data-theme', 'dark');
+     } else {
+       // Default to dark theme for this design
+       setIsDarkTheme(true);
+       document.documentElement.setAttribute('data-theme', 'dark');
+     }
 
-  // Handle logout
+    const checkAuthStatus = () => {
+      const userData = localStorage.getItem('user');
+      if (userData) {
+        try {
+          setUser(JSON.parse(userData));
+        } catch (err) {
+          localStorage.removeItem('user');
+        }
+      }
+    };
+
+    checkAuthStatus();
+
+    const handleStorageChange = (e) => {
+      if (e.key === 'user') {
+        checkAuthStatus();
+      }
+    };
+
+    window.addEventListener('storage', handleStorageChange);
+    return () => window.removeEventListener('storage', handleStorageChange);
+  }, []);
+
+  const handleNavCollapse = () => setIsNavCollapsed(!isNavCollapsed);
+  const handleProfileToggle = () => setIsProfileOpen(!isProfileOpen);
   const handleLogout = () => {
-    localStorage.removeItem("user");
-    setLoggedIn(false);
-    setUser({});
-    navigate("/");
+    localStorage.removeItem('user');
+    setUser(null);
+    window.location.href = '/signin';
   };
-
-  // Handle cart click for unauthenticated users
-  const handleCartClick = () => {
-    if (!loggedIn) {
-      setShowLogin(true); // Show login popup
-    } else {
-      navigate("/cart"); // Navigate to cart if logged in
-    }
-  };
-
-  // Handle search input change
-  const handleSearchChange = (e) => {
-    const query = e.target.value.toLowerCase();
-    setSearchQuery(query);
-
-    // Filter food items based on the search query
-    if (query.trim()) {
-      const filtered = foodList.filter((food) =>
-        food.name.toLowerCase().includes(query)
-      );
-      setFilteredFoods(filtered);
-    } else {
-      setFilteredFoods([]); // Clear filtered results if the query is empty
-    }
-  };
-
-  // Handle search form submission
-  const handleSearchSubmit = (e) => {
-    e.preventDefault();
-    if (searchQuery.trim()) {
-      navigate(`/search?query=${searchQuery}`);
-    }
-  };
-
-  // Handle click on a search result item
-  const handleSearchResultClick = (food) => {
-    if (!loggedIn) {
-      setShowLogin(true); // Show login popup if user is not logged in
-    } else {
-      addToCart(food); // Add the selected item to the cart
-      setSearchQuery(""); // Clear the search query
-      setFilteredFoods([]); // Clear the filtered results
-    }
-  };
-
-  // Toggle menu visibility
-  const toggleMenu = () => {
-    setIsMenuOpen(!isMenuOpen);
+  
+  const toggleTheme = () => {
+    const newTheme = !isDarkTheme;
+    setIsDarkTheme(newTheme);
+    const theme = newTheme ? 'dark' : 'light';
+    localStorage.setItem('theme', theme);
+    document.documentElement.setAttribute('data-theme', theme);
   };
 
   return (
-    <div className="navbar">
-      {/* Hamburger Menu Icon */}
-      <div className="hamburger-menu" onClick={toggleMenu}>
-        ☰
-      </div>
-
-      {/* Logo */}
-      <Link to="/">
-        <img src={assets.logo} alt="Company Logo" className="logo" />
-      </Link>
-
-      {/* Search Bar (Visible only when logged in) */}
-      {loggedIn && (
-        <div className="search-container">
-          <form className="search-bar" onSubmit={handleSearchSubmit}>
-            <input
-              type="text"
-              placeholder="Search for food..."
-              value={searchQuery}
-              onChange={handleSearchChange} // onChange function for dynamic filtering
-            />
-            <button type="submit">
-              <img src={assets.search_icon} alt="Search" className="search-icon" />
-            </button>
-          </form>
-
-          {/* Display filtered food items below the search bar */}
-          {searchQuery && (
-            <div className="search-results">
-              {filteredFoods.length > 0 ? (
-                filteredFoods.map((food) => (
-                  <div
-                    key={food.id}
-                    className="search-result-item"
-                    onClick={() => handleSearchResultClick(food)} // Add the selected item to the cart
-                  >
-                    {food.name}
-                  </div>
-                ))
-              ) : (
-                <div className="no-results">No results found</div>
-              )}
-            </div>
-          )}
-        </div>
-      )}
-
-      {/* Navbar Menu */}
-      <ul className={`navbar-menu ${isMenuOpen ? "active" : ""}`}>
-        <Link
-          to="/"
-          onClick={() => {
-            setMenu("home");
-            setIsMenuOpen(false); // Close menu after clicking a link
-          }}
-          className={menu === "home" ? "active" : ""}
-        >
-          Home
+    <nav className="navbar navbar-expand-lg navbar-dark bg-black sticky-top navbar-sarai">
+      <div className="container">
+        <Link className="navbar-brand sarai-logo" to="/assets/images/">
+          Sarai Collection
         </Link>
-        <a
-          href="#explore-menu"
-          onClick={() => {
-            setMenu("menu");
-            setIsMenuOpen(false);
-          }}
-          className={menu === "menu" ? "active" : ""}
+        
+        <button 
+          className="navbar-toggler gold-border" 
+          type="button" 
+          onClick={handleNavCollapse}
+          aria-label="Toggle navigation"
         >
-          Menu
-        </a>
-        <a
-          href="#app-download"
-          onClick={() => {
-            setMenu("mobile-app");
-            setIsMenuOpen(false);
-          }}
-          className={menu === "mobile-app" ? "active" : ""}
-        >
-          Mobile App
-        </a>
-        <a
-          href="#footer"
-          onClick={() => {
-            setMenu("contact-us");
-            setIsMenuOpen(false);
-          }}
-          className={menu === "contact-us" ? "active" : ""}
-        >
-          Contact Us
-        </a>
-      </ul>
+          {isNavCollapsed ? <FaBars className="gold-icon" /> : <FaTimes className="gold-icon" />}
+        </button>
 
-      {/* Navbar Right Section */}
-      <div className="navbar-right">
-        {/* Cart Icon (Visible only when logged in and on larger screens) */}
-        {loggedIn && (
-          <div className="navbar-basket-icon" onClick={handleCartClick}>
-            <img src={assets.basket_icon} alt="Cart" />
-            {totalQuantity > 0 && <div className="dot">{totalQuantity}</div>}
-          </div>
-        )}
+        <div className={`${isNavCollapsed ? 'collapse' : ''} navbar-collapse`}>
+          <ul className="navbar-nav me-auto mb-2 mb-lg-0">
+            <li className="nav-item">
+              <Link className="nav-link gold-hover" aria-current="page" to="/">Home</Link>
+            </li>
+            <li className="nav-item dropdown">
+              <Link className="nav-link dropdown-toggle gold-hover" to="/ladies" id="ladiesDropdown">
+                Ladies Wear
+              </Link>
+              <ul className="dropdown-menu gold-dropdown" aria-labelledby="ladiesDropdown">
+                <li><Link className="dropdown-item" to="/ladies/dresses">Dresses</Link></li>
+                <li><Link className="dropdown-item" to="/ladies/tops">Tops</Link></li>
+                <li><Link className="dropdown-item" to="/ladies/bottoms">Bottoms</Link></li>
+                <li><Link className="dropdown-item" to="/ladies/evening">Evening Wear</Link></li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <Link className="nav-link dropdown-toggle gold-hover" to="/men" id="menDropdown">
+                Men
+              </Link>
+              <ul className="dropdown-menu gold-dropdown" aria-labelledby="menDropdown">
+                <li><Link className="dropdown-item" to="/men/shirts">Shirts</Link></li>
+                <li><Link className="dropdown-item" to="/men/pants">Pants</Link></li>
+                <li><Link className="dropdown-item" to="/men/suits">Suits</Link></li>
+                <li><Link className="dropdown-item" to="/men/casual">Casual Wear</Link></li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <Link className="nav-link dropdown-toggle gold-hover" to="/kids" id="kidsDropdown">
+                Kids
+              </Link>
+              <ul className="dropdown-menu gold-dropdown" aria-labelledby="kidsDropdown">
+                <li><Link className="dropdown-item" to="/kids/boys">Boys</Link></li>
+                <li><Link className="dropdown-item" to="/kids/girls">Girls</Link></li>
+                <li><Link className="dropdown-item" to="/kids/babies">Babies</Link></li>
+              </ul>
+            </li>
+            <li className="nav-item dropdown">
+              <Link className="nav-link dropdown-toggle gold-hover" to="/shoes" id="shoesDropdown">
+                Shoes
+              </Link>
+              <ul className="dropdown-menu gold-dropdown" aria-labelledby="shoesDropdown">
+                <li><Link className="dropdown-item" to="/shoes/women">Women's Shoes</Link></li>
+                <li><Link className="dropdown-item" to="/shoes/men">Men's Shoes</Link></li>
+                <li><Link className="dropdown-item" to="/shoes/kids">Kids' Shoes</Link></li>
+                <li><Link className="dropdown-item" to="/shoes/designer">Designer Collection</Link></li>
+              </ul>
+            </li>
+            <li className="nav-item">
+              <Link className="nav-link gold-hover" to="/collections">Collections</Link>
+            </li>
+          </ul>
+          
+          <div className="d-flex align-items-center">
+            <button 
+              className="theme-toggle-btn me-3"
+              onClick={toggleTheme}
+              title={`Switch to ${isDarkTheme ? 'light' : 'dark'} theme`}
+            >
+              {isDarkTheme ? <FaSun className="gold-icon" /> : <FaMoon className="gold-icon" />}
+            </button>
+            
+            {user ? (
+              <>
+                <Link to="/cart" className="btn gold-btn-outline me-3 position-relative">
+                  <FaShoppingCart />
+                  {/* Cart count badge would go here */}
+                </Link>
+                <div className="dropdown">
+                  <button 
+                    className="btn gold-btn-outline dropdown-toggle d-flex align-items-center" 
+                    onClick={handleProfileToggle}
+                  >
+                    {user.profilePhoto ? (
+                      <img 
+                        src={user.profilePhoto} 
+                        alt="Profile" 
+                        className="rounded-circle me-2 profile-img" 
+                      />
+                    ) : (
+                      <FaUserCircle className="me-2 gold-icon" size={20} />
+                    )}
+                    {user.username || user.email}
+                  </button>
 
-        {/* Auth Buttons (Visible only when not logged in and on larger screens) */}
-        {!loggedIn && (
-          <div className="auth-buttons">
-            <button
-              className="sign-in-button"
-              onClick={() => {
-                setShowLogin(true); // Show login popup
-                setIsSignUp(false); // Ensure it's the login form
-              }}
-              aria-label="Sign In"
-            >
-              Sign In
-            </button>
-            <button
-              className="sign-up-button"
-              onClick={() => {
-                setShowLogin(true); // Show login popup
-                setIsSignUp(true); // Ensure it's the signup form
-              }}
-              aria-label="Sign Up"
-            >
-              Sign Up
-            </button>
+                  <div className={`dropdown-menu gold-dropdown ${isProfileOpen ? 'show' : ''}`} style={{ right: 0, left: 'auto' }}>
+                    <Link className="dropdown-item" to="/profile">Profile</Link>
+                    <Link className="dropdown-item" to="/orders">My Orders</Link>
+                    <Link className="dropdown-item" to="/wishlist">Wishlist</Link>
+                    {user.is_admin && (
+                      <Link className="dropdown-item" to="/admin">Admin Dashboard</Link>
+                    )}
+                    <div className="dropdown-divider"></div>
+                    <button className="dropdown-item gold-text" onClick={handleLogout}>Logout</button>
+                  </div>
+                </div>
+              </>
+            ) : (
+              <>
+                <Link to="/signin" className="btn gold-btn-outline me-2">Sign In</Link>
+                <Link to="/signup" className="btn gold-btn">Sign Up</Link>
+              </>
+            )}
           </div>
-        )}
-
-        {/* User Section (Visible only when logged in and on larger screens) */}
-        {loggedIn && (
-          <div className="navbar-user">
-            <p className="welcome-message">
-              Welcome, <span className="username">{user?.username || "User"}</span>
-            </p>
-            <button
-              className="logout-button"
-              onClick={handleLogout}
-              aria-label="Logout"
-              title="Logout"
-            >
-              <img src={assets.logout_icon} alt="Logout" className="logout-icon" />
-              <span>Logout</span>
-            </button>
-          </div>
-        )}
+        </div>
       </div>
-
-      {/* Dropdown Menu for Small Screens */}
-      <div className={`dropdown-menu ${isMenuOpen ? "active" : ""}`}>
-        {/* Auth Buttons in Dropdown (for small screens) */}
-        {!loggedIn && (
-          <>
-            <button
-              className="dropdown-button"
-              onClick={() => {
-                setShowLogin(true); // Show login popup
-                setIsSignUp(false); // Ensure it's the login form
-                setIsMenuOpen(false); // Close the menu
-              }}
-            >
-              Sign In
-            </button>
-            <button
-              className="dropdown-button"
-              onClick={() => {
-                setShowLogin(true); // Show login popup
-                setIsSignUp(true); // Ensure it's the signup form
-                setIsMenuOpen(false); // Close the menu
-              }}
-            >
-              Sign Up
-            </button>
-          </>
-        )}
-
-        {/* Cart in Dropdown (for small screens) */}
-        {loggedIn && (
-          <div className="dropdown-button" onClick={handleCartClick}>
-            <img src={assets.basket_icon} alt="Cart" />
-            {totalQuantity > 0 && <div className="dot">{totalQuantity}</div>}
-          </div>
-        )}
-
-        {/* Logout in Dropdown (for small screens) */}
-        {loggedIn && (
-          <button
-            className="dropdown-button"
-            onClick={() => {
-              handleLogout();
-              setIsMenuOpen(false); // Close the menu
-            }}
-          >
-            Logout
-          </button>
-        )}
-      </div>
-    </div>
+    </nav>
   );
 };
 

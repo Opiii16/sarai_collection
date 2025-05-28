@@ -1,0 +1,110 @@
+/* CategoriesSection.css */
+
+/* Main section styling */
+section.py-5 {
+    background-color: #997511; /* Light background */
+    padding: 3rem 0 !important;
+  }
+  
+  /* Section heading */
+  .text-center.mb-5 {
+    font-family: 'Playfair Display', serif;
+    color: #1a1a1a;
+    position: relative;
+    padding-bottom: 15px;
+  }
+  
+  .text-center.mb-5::after {
+    content: '';
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 80px;
+    height: 3px;
+    background: #d4af37; /* Gold accent */
+  }
+  
+  /* Grid layout */
+  .row-cols-2.row-cols-md-4.g-4 {
+    padding: 0 15px; /* Add some padding on sides */
+  }
+  
+  /* Category card styling */
+  .col .card {
+    transition: all 0.3s ease;
+    border-radius: 8px !important;
+    overflow: hidden;
+    background: rgb(245, 244, 243);
+  }
+  
+  .col .card:hover {
+    transform: translateY(-5px);
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1) !important;
+  }
+  
+  /* Image container */
+  .card-img-top {
+    height: 300px !important; /* Slightly taller than your inline style */
+    width: 100%;
+    object-fit: cover;
+    object-position: center;
+    transition: transform 0.5s ease;
+  }
+  
+  .col .card:hover .card-img-top {
+    transform: scale(1.03);
+  }
+  
+  /* Card body styling */
+  .card-body.text-center {
+    padding: 1.25rem 0.5rem;
+  }
+  
+  .card-title {
+    font-weight: 600;
+    color: #333;
+    margin-bottom: 0;
+    font-size: 1.1rem;
+    transition: color 0.3s ease;
+  }
+  
+  .col .card:hover .card-title {
+    color: #d4af37; /* Gold color on hover */
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 768px) {
+    .row-cols-2.row-cols-md-4.g-4 {
+      gap: 15px !important;
+    }
+    
+    .card-img-top {
+      height: 150px !important;
+    }
+  }
+  
+  @media (max-width: 576px) {
+    section.py-5 {
+      padding: 2rem 0 !important;
+    }
+    
+    .text-center.mb-5 {
+      font-size: 1.8rem;
+    }
+    
+    .card-img-top {
+      height: 120px !important;
+    }
+    
+    .card-title {
+      font-size: 1rem;
+    }
+  }
+  .card-img-container {
+    height: 200px;
+    overflow: hidden;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
