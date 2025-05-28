@@ -1,0 +1,177 @@
+/* SignIn.css */
+
+/* Main container styling */
+.min-vh-100 {
+    background: linear-gradient(135deg, #f8f3f3 0%, #eeecea 100%);
+    padding: 2rem;
+  }
+  
+  /* Card styling */
+  .card {
+    border: none !important;
+    border-radius: 12px !important;
+    overflow: hidden;
+    background: linear-gradient(145deg, rgba(43, 42, 42, 0.9) 0%, rgba(59, 45, 3, 0.9) 100%);
+    color: #e0c9a6;
+    box-shadow: 0 10px 30px rgba(44, 44, 44, 0.5) !important;
+    backdrop-filter: blur(5px);
+  }
+  
+  /* Form elements styling */
+  .card-body {
+    padding: 2.5rem !important;
+  }
+  
+  h1 {
+    color: #d4af37 !important;
+    font-family: 'Playfair Display', serif;
+    font-weight: 700 !important;
+    margin-bottom: 2rem !important;
+    font-size: 2rem !important;
+  }
+  
+  .form-label {
+    color: #d4af37;
+    font-weight: 500;
+  }
+  
+  .form-control {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(226, 185, 48, 0.3) !important;
+    color: #fff !important;
+    padding: 0.75rem 1rem !important;
+  }
+  
+  .form-control:focus {
+    border-color: #d4af37 !important;
+    box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+    background-color: rgba(255, 255, 255, 0.15) !important;
+  }
+  
+  .invalid-feedback {
+    color: #ff6b6b !important;
+  }
+  
+  /* Button styling */
+  .btn-primary {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+    color: #1a1a1a !important;
+    font-weight: 600 !important;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-primary:hover {
+    background-color: #c9a227 !important;
+    border-color: #c9a227 !important;
+    transform: translateY(-2px);
+  }
+  
+  .btn-primary:disabled {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+    opacity: 0.7;
+  }
+  
+  /* Social buttons */
+  .btn-outline-danger,
+  .btn-outline-primary,
+  .btn-outline-dark {
+    border-width: 2px !important;
+    transition: all 0.3s ease;
+    width: 42px;
+    height: 42px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  
+  .btn-outline-danger:hover,
+  .btn-outline-primary:hover,
+  .btn-outline-dark:hover {
+    transform: translateY(-2px) scale(1.05);
+  }
+  
+  .btn-outline-danger {
+    color: #ff6b6b !important;
+    border-color: #ff6b6b !important;
+  }
+  
+  .btn-outline-primary {
+    color: #4dabf7 !important;
+    border-color: #4dabf7 !important;
+  }
+  
+  .btn-outline-dark {
+    color: #495057 !important;
+    border-color: #495057 !important;
+  }
+  
+  /* Divider styling */
+  hr {
+    border-color: rgba(212, 175, 55, 0.3) !important;
+  }
+  
+  .text-muted {
+    color: #d4af37 !important;
+  }
+  
+  /* Links styling */
+  .text-primary {
+    color: #d4af37 !important;
+    text-decoration: none;
+    font-weight: 500;
+    transition: color 0.3s ease;
+  }
+  
+  .text-primary:hover {
+    color: #e0c9a6 !important;
+    text-decoration: underline;
+  }
+  
+  a.text-decoration-none {
+    color: #e0c9a6 !important;
+    transition: color 0.3s ease;
+  }
+  
+  a.text-decoration-none:hover {
+    color: #d4af37 !important;
+  }
+  
+  /* Checkbox styling */
+  .form-check-input {
+    background-color: rgba(255, 255, 255, 0.1) !important;
+    border: 1px solid rgba(212, 175, 55, 0.3) !important;
+  }
+  
+  .form-check-input:checked {
+    background-color: #d4af37 !important;
+    border-color: #d4af37 !important;
+  }
+  
+  .form-check-label {
+    color: #e0c9a6;
+  }
+  
+  /* Alert styling */
+  .alert-danger {
+    background-color: rgba(255, 107, 107, 0.1) !important;
+    border-color: rgba(255, 107, 107, 0.3) !important;
+    color: #ff6b6b !important;
+  }
+  
+  /* Spinner styling */
+  .fa-spin {
+    color: #1a1a1a !important;
+  }
+  
+  /* Responsive adjustments */
+  @media (max-width: 576px) {
+    .card-body {
+      padding: 1.5rem !important;
+    }
+    
+    h1 {
+      font-size: 1.75rem !important;
+    }
+  }
