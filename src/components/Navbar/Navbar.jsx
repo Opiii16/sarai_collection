@@ -71,7 +71,7 @@ const Navbar = () => {
 
         {/* <Link className="navbar-brand sarai-logo" to="/assets/images/"> */}
 
-        <Link className="navbar-brand sarai-logo" to="/">
+        <Link className="navbar-brand sarai-logo" to="/assets/images/sarai-logo.png">
 
           Sarai Collection
         </Link>
