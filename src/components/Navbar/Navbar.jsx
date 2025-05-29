@@ -68,7 +68,11 @@ const Navbar = () => {
   return (
     <nav className="navbar navbar-expand-lg navbar-dark bg-black sticky-top navbar-sarai">
       <div className="container">
-        <Link className="navbar-brand sarai-logo" to="/assets/images/">
+
+        {/* <Link className="navbar-brand sarai-logo" to="/assets/images/"> */}
+
+        <Link className="navbar-brand sarai-logo" to="/">
+
           Sarai Collection
         </Link>
         

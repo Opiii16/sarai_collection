@@ -1,3 +1,4 @@
+
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import { FaGoogle, FaFacebook, FaApple, FaSpinner, FaEye, FaEyeSlash } from 'react-icons/fa';
@@ -202,3 +203,4 @@ const Signup = () => {
 };
 
 export default Signup;
+

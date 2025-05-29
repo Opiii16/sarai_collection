@@ -9,7 +9,11 @@ import Signup from './components/Signup';
 
 
 import AboutUs from './components/AboutUs/AboutUs.jsx'
+
 import Carousel from './components/Carousel/Carousel.jsx'
+
+
+
 import Products from './components/Products/Products.jsx'
 import Makepayment from './components/Makepayment/Makepayment.jsx'
 import PaymentSuccess from './components/Makepayment/PaymentSuccess.jsx'
@@ -21,7 +25,8 @@ function App() {
   return (
     <Router>
       <div className="app-container">
-       
+
+
        
         <main className="app-content">
           <Routes>
@@ -31,7 +36,11 @@ function App() {
             <Route path="/" element={<Footer/>} />
             <Route path="/" element={<Carousel/>} />
             <Route path="/about-us" element={<AboutUs/>} />
+
             <Route path="/" element={<Navbar/>} />   
+
+             <Route path="/" element={<Navbar/>} />    
+
 
             <Route path="/products" element={<Products/>} />
 
