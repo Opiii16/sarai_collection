@@ -36,3 +36,21 @@
     transform: rotate(360deg);
   }
 }
+:root {
+  --bg-color: #ffffff;
+  --text-color: #000000;
+  /* Add other default variables */
+}
+
+[data-theme="dark"] {
+  --bg-color: #413f3f;
+  --text-color: #f1f1f1;
+  /* Dark theme overrides */
+}
+
+body {
+  background-color: var(--bg-color);
+  color: var(--text-color);
+  transition: background-color 0.3s ease, color 0.3s ease;
+}
+

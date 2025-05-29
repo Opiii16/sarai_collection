@@ -95,3 +95,181 @@
   #root, .App, .main-container {
     overflow: visible !important;
   }
+  /* Carousel.css */
+.hero {
+  position: relative;
+  width: 100%;
+  overflow: hidden;
+}
+
+.carousel-img-container {
+  position: relative;
+  width: 100%;
+  height: 80vh; /* Adjust height for mobile */
+  min-height: 400px;
+  max-height: 800px;
+  overflow: hidden;
+}
+
+.carousel-img-container img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.carousel-container {
+  position: absolute;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  padding: 2rem;
+  background: rgba(0, 0, 0, 0.5);
+  color: white;
+  text-align: center;
+}
+
+.carousel-container h2 {
+  font-size: 2rem;
+  margin-bottom: 1rem;
+  font-weight: bold;
+}
+
+.carousel-container p {
+  font-size: 1rem;
+  margin-bottom: 1.5rem;
+}
+
+.btn-get-started {
+  display: inline-block;
+  padding: 0.8rem 2rem;
+  background: #ffffff;
+  color: #000000;
+  border-radius: 30px;
+  text-decoration: none;
+  font-weight: bold;
+  transition: all 0.3s ease;
+}
+
+.btn-get-started:hover {
+  background: #fcd602;
+  transform: translateY(-3px);
+}
+
+/* Mobile responsiveness */
+@media (max-width: 768px) {
+  .carousel-img-container {
+    height: 60vh;
+    min-height: 300px;
+  }
+  
+  .carousel-container {
+    padding: 1rem;
+  }
+  
+  .carousel-container h2 {
+    font-size: 1.5rem;
+  }
+  
+  .carousel-container p {
+    font-size: 0.9rem;
+    margin-bottom: 1rem;
+  }
+  
+  .btn-get-started {
+    padding: 0.6rem 1.5rem;
+    font-size: 0.9rem;
+  }
+}
+
+/* Animation classes */
+.animate__animated {
+  animation-duration: 1s;
+  animation-fill-mode: both;
+}
+
+@keyframes fadeInRight {
+  from {
+    opacity: 0;
+    transform: translateX(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateX(0);
+  }
+}
+
+.animate__fadeInRight {
+  animation-name: fadeInRight;
+}
+
+@keyframes fadeInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate__fadeInDown {
+  animation-name: fadeInDown;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate__fadeInUp {
+  animation-name: fadeInUp;
+}
+/* Add these to your existing Carousel.css */
+
+/* Animation classes */
+.animate-slide-in-down {
+  animation: slideInDown 0.8s ease-out forwards;
+}
+
+.animate-slide-in-up {
+  animation: slideInUp 0.8s ease-out forwards;
+}
+
+@keyframes slideInDown {
+  from {
+    opacity: 0;
+    transform: translateY(-30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+@keyframes slideInUp {
+  from {
+    opacity: 0;
+    transform: translateY(30px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Make sure each carousel item's content starts hidden and gets animated when active */
+.carousel-item:not(.active) .carousel-container > * {
+  opacity: 0;
+}
+
+.carousel-item.active .animate-slide-in-down,
+.carousel-item.active .animate-slide-in-up {
+  opacity: 1;
+}
