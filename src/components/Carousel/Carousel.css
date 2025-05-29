@@ -3,7 +3,7 @@
 /* Main carousel container */
 .hero.section {
     position: relative;
-    height: 750px; /* Medium height */
+    height: 850px; /* Medium height */
     overflow: hidden;
     margin: 2rem auto;
     max-width: 1200px; /* Control maximum width */
