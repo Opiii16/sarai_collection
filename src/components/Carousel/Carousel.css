@@ -4,7 +4,7 @@
 .hero.section {
     position: relative;
     height: 750px; /* Medium height */
-    top: 100%
+    top: 100% ;
     overflow: hidden;
     margin: 2rem auto;
     max-width: 1200px; /* Control maximum width */
