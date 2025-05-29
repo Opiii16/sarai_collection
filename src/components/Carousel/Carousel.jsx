@@ -28,7 +28,7 @@ const Carousel = () => {
             </div>
 
             <div className="carousel-item">
-              <img src="/assets/images/hero-carousel-2.jpg" alt="Modern style essentials" />
+              <img src="/assets/images/hero-carousel-2.jpeg" alt="Modern style essentials" />
               <div className="carousel-container">
                 <h2>Where Comfort Meets Couture</h2>
                 <p>Redefine everyday luxury with our effortless styles. Designed for the dynamic visionary, each piece offers unparalleled comfort without compromising on statement-making appeal.</p>
@@ -37,7 +37,7 @@ const Carousel = () => {
             </div>
 
             <div className="carousel-item">
-              <img src="/assets/images/hero-carousel-3.jpg" alt="Bold fashion statements" />
+              <img src="/assets/images/hero-carousel-3.jpeg" alt="Bold fashion statements" />
               <div className="carousel-container">
                 <h2>Dare to Be Distinct</h2>
                 <p>For those who command attention. Our boldest creations are for the fashion vanguard—pieces that don't whisper but declare, crafted for impact and designed to inspire.</p>
