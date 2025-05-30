@@ -74,7 +74,7 @@ const Signup = () => {
       formDataToSend.append('last_name', formData.last_name);
       formDataToSend.append('phone', formData.phone);
 
-      const response = await axios.post(`https://prosperv21.pythonanywhere.com/api/auth/register`, formDataToSend, {
+      const response = await axios.post(`https://saraicollection.pythonanywhere.com/api/auth/register`, formDataToSend, {
         headers: { 'Content-Type': 'multipart/form-data' },
       });
 
@@ -170,9 +170,15 @@ const Signup = () => {
               {errors.acceptTerms && <div className="invalid-feedback d-block">{errors.acceptTerms}</div>}
             </div>
 
-            <button type="submit" className="btn btn-primary w-100 py-2 mb-3 fw-bold" disabled={loading}>
-              {loading ? <><FaSpinner className="fa-spin me-2" /> Creating Account...</> : 'Sign Up'}
-            </button>
+              
+              <button 
+                type="submit" 
+                className="btn btn-primary w-100 py-2 mb-3 fw-bold" 
+                disabled={loading}
+                onClick={handleSubmit} // Add this
+              >
+                {loading ? <><FaSpinner className="fa-spin me-2" /> Creating Account...</> : 'Sign Up'}
+              </button>
 
             <p className="text-center mt-3">
               Already have an account? <Link to="/signin" className="text-primary">Sign In</Link>

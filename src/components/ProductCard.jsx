@@ -1,10 +1,11 @@
 import React from 'react';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { FaStar, FaRegStar, FaShoppingCart, FaHeart } from 'react-icons/fa';
 import './ProductCard.css';
 
 const ProductCard = ({ product }) => {
-  // Safely handle product data with defaults
+  const navigate = useNavigate();
+
   const {
     id = '',
     name = 'Sarai Collection Item',
@@ -17,7 +18,6 @@ const ProductCard = ({ product }) => {
     images = []
   } = product || {};
 
-  // Image handling with elegant fallback
   const getImageUrl = () => {
     try {
       const primaryImage = images.find(img => img?.is_primary) || images[0];
@@ -27,12 +27,11 @@ const ProductCard = ({ product }) => {
     } catch (e) {
       console.error("Error processing image:", e);
     }
-    return ''; // Empty string will use the CSS gradient background
+    return '';
   };
 
   const imageUrl = getImageUrl();
 
-  // Rating stars rendering
   const renderRating = () => {
     const stars = [];
     const fullStars = Math.floor(rating);
@@ -53,7 +52,6 @@ const ProductCard = ({ product }) => {
   return (
     <div className="sarai-product-card">
       <div className="card-image-container">
-        {/* Image with gradient overlay */}
         <div 
           className="card-image"
           style={{
@@ -92,7 +90,7 @@ const ProductCard = ({ product }) => {
               <span className="original-price">KES {compare_price.toLocaleString()}</span>
             )}
           </div>
-          <button className="add-to-cart">
+          <button className="add-to-cart" onClick={() => navigate('/cart')}>
             <FaShoppingCart />
           </button>
         </div>

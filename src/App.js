@@ -6,7 +6,7 @@ import HomePage from './components/Homepage/Homepage.jsx';
 import Navbar from './components/Navbar/Navbar.jsx'
 import Signin from './components/Signin';
 import Signup from './components/Signup';
-
+import Admindashboard from './components/Admindashboard.jsx';
 
 import AboutUs from './components/AboutUs/AboutUs.jsx'
 
@@ -33,6 +33,7 @@ function App() {
             <Route path="/" element={<HomePage />} />
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
+            <Route path="/admin" element={<Admindashboard/>} />
             <Route path="/" element={<Footer/>} />
             <Route path="/" element={<Carousel/>} />
             <Route path="/about-us" element={<AboutUs/>} />

@@ -98,6 +98,10 @@ export const updateUser  = async (id, userData) => {
   const response = await api.put(`/api/users/${id}`, userData);
   return response.data;
 };
+export const getCurrentUser = async () => {
+
+};
+
 
 export const getDashboardStats = async () => {
   const response = await api.get('/api/dashboard/stats');
