@@ -10,7 +10,7 @@ const AdminDashboard = () => {
   const [users, setUsers] = useState([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState(null);
-  const [deleteSuccess, setDeleteSuccess] = useState(false); // New state for delete success
+  const [deleteSuccess, setDeleteSuccess] = useState(false);
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -41,7 +41,6 @@ const AdminDashboard = () => {
   }, [activeTab, navigate]);
 
   useEffect(() => {
-    // Auto-dismiss delete success message after 2 seconds
     if (deleteSuccess) {
       const timer = setTimeout(() => {
         setDeleteSuccess(false);
@@ -55,7 +54,7 @@ const AdminDashboard = () => {
       try {
         await deleteProduct(id);
         setProducts(products.filter(product => product.id !== id));
-        setDeleteSuccess(true); // Trigger success message
+        setDeleteSuccess(true);
       } catch (err) {
         setError(err.message);
       }
@@ -64,7 +63,6 @@ const AdminDashboard = () => {
 
   return (
     <div className="d-flex min-vh-100">
-      {/* Sidebar */}
       <div className="bg-dark text-white" style={{ width: '250px' }}>
         <div className="p-3">
           <h4 className="text-center mb-4">Admin Dashboard</h4>
@@ -109,7 +107,6 @@ const AdminDashboard = () => {
         </div>
       </div>
       
-      {/* Main Content */}
       <div className="flex-grow-1 p-4">
         <div className="d-flex justify-content-between align-items-center mb-4">
           <h2 className="text-capitalize">{activeTab}</h2>
@@ -149,6 +146,7 @@ const AdminDashboard = () => {
                     <div className="card-body">
                       <h5 className="card-title">Total Products</h5>
                       <p className="card-text display-4">{products.length}</p>
+                      <p className="card-text">All products in inventory</p>
                     </div>
                   </div>
                 </div>
@@ -157,6 +155,7 @@ const AdminDashboard = () => {
                     <div className="card-body">
                       <h5 className="card-title">Total Orders</h5>
                       <p className="card-text display-4">{orders.length}</p>
+                      <p className="card-text">All customer orders</p>
                     </div>
                   </div>
                 </div>
@@ -165,6 +164,7 @@ const AdminDashboard = () => {
                     <div className="card-body">
                       <h5 className="card-title">Total Users</h5>
                       <p className="card-text display-4">{users.length}</p>
+                      <p className="card-text">All registered users</p>
                     </div>
                   </div>
                 </div>
@@ -300,7 +300,7 @@ const AdminDashboard = () => {
                           {user.is_admin ? (
                             <span className="badge bg-danger">Admin</span>
                           ) : (
-                            <span className="badge bg-primary">User </span>
+                            <span className="badge bg-primary">User</span>
                           )}
                         </td>
                         <td>{new Date(user.created_at).toLocaleDateString()}</td>
