@@ -3,23 +3,19 @@ import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap/dist/js/bootstrap.min.js'
 import HomePage from './components/Homepage/Homepage.jsx';
-import Navbar from './components/Navbar/Navbar.jsx'
 import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Admindashboard from './components/Admindashboard.jsx';
-
 import AboutUs from './components/AboutUs/AboutUs.jsx'
-
 import Carousel from './components/Carousel/Carousel.jsx'
-
-
-
 import Products from './components/Products/Products.jsx'
 import Makepayment from './components/Makepayment/Makepayment.jsx'
 import PaymentSuccess from './components/Makepayment/PaymentSuccess.jsx'
 import Footer from './components/Footer';
 import Cart from './components/Cart/Cart.jsx';
-import 'bootstrap/dist/js/bootstrap.min.js';
+import UserDetails from './components/UsersDetails.jsx';
+import AddProductForm from './components/AddProductForm';
+import EditProductForm from './components/EditProductForm.jsx';
 
 function App() {
   return (
@@ -37,22 +33,13 @@ function App() {
             <Route path="/" element={<Footer/>} />
             <Route path="/" element={<Carousel/>} />
             <Route path="/about-us" element={<AboutUs/>} />
-
-            <Route path="/" element={<Navbar/>} />   
-
-             <Route path="/" element={<Navbar/>} />    
-
-
             <Route path="/products" element={<Products/>} />
-
-
+            <Route path="/admin/users/:id" element={<UserDetails />} />
             <Route path="/cart" element={<Cart/>} />
             <Route path="/make-payment" element={<Makepayment/>} />
             <Route path="/payment-success" element={<PaymentSuccess/>} />
-            
-
-
-            
+            <Route path='/admin/products/new' element={<AddProductForm />} /> 
+            <Route path="/admin/products/edit/:id" element={<EditProductForm />} />     
 
           </Routes>
         </main>

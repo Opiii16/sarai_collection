@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
-import { getFeaturedProducts } from '../services/api';
+import { getFeaturedProducts } from '../../services/api';
 import ProductCard from '../ProductCard';
 import Carousel from '../Carousel/Carousel';
 import CategoriesSection from '../CategoriesSection';
