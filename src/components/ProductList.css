@@ -1,0 +1,23 @@
+.product-list-container {
+    padding: 20px;
+  }
+  .product-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+    gap: 20px;
+  }
+  .view-all-btn {
+    margin-top: 20px;
+    padding: 10px 20px;
+    background-color: #2b2000;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+  }
+  .view-all-btn:hover {
+    background-color: #1a1a1a;
+  }
+  .error {
+    color: red;
+  }

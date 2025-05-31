@@ -8,7 +8,7 @@ import Signup from './components/Signup';
 import Admindashboard from './components/Admindashboard.jsx';
 import AboutUs from './components/AboutUs/AboutUs.jsx'
 import Carousel from './components/Carousel/Carousel.jsx'
-import Products from './components/Products/Products.jsx'
+
 import Makepayment from './components/Makepayment/Makepayment.jsx'
 import PaymentSuccess from './components/Makepayment/PaymentSuccess.jsx'
 import Footer from './components/Footer';
@@ -33,7 +33,7 @@ function App() {
             <Route path="/" element={<Footer/>} />
             <Route path="/" element={<Carousel/>} />
             <Route path="/about-us" element={<AboutUs/>} />
-            <Route path="/products" element={<Products/>} />
+            
             <Route path="/admin/users/:id" element={<UserDetails />} />
             <Route path="/cart" element={<Cart/>} />
             <Route path="/make-payment" element={<Makepayment/>} />
