@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Link } from 'react-router-dom';
 import Navbar from '../Navbar/Navbar';
 import Footer from '../Footer';
@@ -15,29 +15,25 @@ const Cart = () => {
   const [tax, setTax] = useState(0);
   const [total, setTotal] = useState(0);
 
+  const calculateTotals = useCallback(() => {
+    const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const newShipping = newSubtotal > 1000 ? 0 : 49.99;
+    const newTax = newSubtotal * 0.1;
+    const newTotal = newSubtotal + newShipping + newTax;
+
+    setSubtotal(newSubtotal);
+    setShipping(newShipping);
+    setTax(newTax);
+    setTotal(newTotal);
+  }, [cartItems]);
+
   useEffect(() => {
     fetchCartItems();
   }, []);
 
   useEffect(() => {
     calculateTotals();
-  }, [cartItems]);
-
-  useEffect(() => {
-    const calculateTotals = () => {
-      const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-      const newShipping = newSubtotal > 1000 ? 0 : 49.99;
-      const newTax = newSubtotal * 0.1;
-      const newTotal = newSubtotal + newShipping + newTax;
-  
-      setSubtotal(newSubtotal);
-      setShipping(newShipping);
-      setTax(newTax);
-      setTotal(newTotal);
-    };
-  
-    calculateTotals();
-  }, [cartItems]);
+  }, [cartItems, calculateTotals]);
 
   const fetchCartItems = async () => {
     try {
@@ -64,18 +60,6 @@ const Cart = () => {
     } finally {
       setLoading(false);
     }
-  };
-
-  const calculateTotals = () => {
-    const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
-    const newShipping = newSubtotal > 1000 ? 0 : 49.99;
-    const newTax = newSubtotal * 0.1;
-    const newTotal = newSubtotal + newShipping + newTax;
-
-    setSubtotal(newSubtotal);
-    setShipping(newShipping);
-    setTax(newTax);
-    setTotal(newTotal);
   };
 
   const updateQuantity = async (itemId, newQuantity) => {
@@ -296,12 +280,14 @@ const Cart = () => {
                     </div>
                   </div>
 
-                  <button
-                    className="btn btn-primary w-100 py-3 fw-bold"
-                    disabled={cartItems.length === 0}
-                  >
-                    Proceed to Checkout
-                  </button>
+                  <Link to="/make-payment">
+                    <button
+                      className="btn btn-primary w-100 py-3 fw-bold"
+                      disabled={cartItems.length === 0}
+                    >
+                      Proceed to Checkout
+                    </button>
+                  </Link>
                 </div>
               </div>
             </div>

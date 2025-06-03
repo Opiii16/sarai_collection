@@ -1,0 +1,53 @@
+/* Payment Success Specific Styles */
+.success-icon {
+    animation: bounceIn 0.8s ease;
+  }
+  
+  @keyframes bounceIn {
+    0% {
+      transform: scale(0.1);
+      opacity: 0;
+    }
+    60% {
+      transform: scale(1.2);
+      opacity: 1;
+    }
+    100% {
+      transform: scale(1);
+    }
+  }
+  
+  .btn-outline-gold {
+    color: var(--gold);
+    border-color: var(--gold);
+  }
+  
+  .btn-outline-gold:hover {
+    background-color: var(--gold);
+    color: var(--dark);
+  }
+  
+  .table-dark {
+    background-color: var(--dark-3);
+    color: white;
+  }
+  
+  .table-borderless tbody tr {
+    border-bottom: 1px solid #444;
+  }
+  
+  /* Order timeline */
+  .order-timeline {
+    position: relative;
+  }
+  
+  .order-timeline::before {
+    content: '';
+    position: absolute;
+    top: 20px;
+    left: 15px;
+    height: calc(100% - 40px);
+    width: 2px;
+    background: var(--gold);
+    opacity: 0.3;
+  }
