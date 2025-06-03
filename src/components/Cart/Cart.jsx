@@ -1,157 +1,315 @@
 import React, { useState, useEffect } from 'react';
-import { FiX, FiPlus, FiMinus, FiShoppingCart } from 'react-icons/fi';
-import { useNavigate } from 'react-router-dom';
-import './Cart.css'; // Update the path as needed
+import { Link } from 'react-router-dom';
+import Navbar from '../Navbar/Navbar';
+import Footer from '../Footer';
+import { FaTrash, FaPlus, FaMinus, FaSpinner } from 'react-icons/fa';
+import axios from 'axios';
+import { toast } from 'react-toastify';
 
 const Cart = () => {
   const [cartItems, setCartItems] = useState([]);
-  const navigate = useNavigate();
+  const [loading, setLoading] = useState(true);
+  const [error, setError] = useState(null);
+  const [subtotal, setSubtotal] = useState(0);
+  const [shipping, setShipping] = useState(0);
+  const [tax, setTax] = useState(0);
+  const [total, setTotal] = useState(0);
 
   useEffect(() => {
-    setCartItems([
-      {
-        id: 1,
-        name: 'Gold Embellished Evening Gown',
-        price: 299.99,
-        quantity: 1,
-        image: '/assets/images/kids1.jpeg',
-        size: 'M',
-      },
-      {
-        id: 2,
-        name: 'Silk Satin Blouse',
-        price: 149.99,
-        quantity: 2,
-        image: 'https://images.unsplash.com/photo-1591047139829-d91aecb6caea?ixlib=rb-1.2.1&auto=format&fit=crop&w=500&q=60',
-        size: 'S',
-      },
-    ]);
+    fetchCartItems();
   }, []);
 
-  const updateQuantity = (id, quantity) => {
-    if (quantity < 1) return;
-    setCartItems(prev =>
-      prev.map(item => (item.id === id ? { ...item, quantity } : item))
+  useEffect(() => {
+    calculateTotals();
+  }, [cartItems]);
+
+  useEffect(() => {
+    const calculateTotals = () => {
+      const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+      const newShipping = newSubtotal > 1000 ? 0 : 49.99;
+      const newTax = newSubtotal * 0.1;
+      const newTotal = newSubtotal + newShipping + newTax;
+  
+      setSubtotal(newSubtotal);
+      setShipping(newShipping);
+      setTax(newTax);
+      setTotal(newTotal);
+    };
+  
+    calculateTotals();
+  }, [cartItems]);
+
+  const fetchCartItems = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        setLoading(false);
+        return;
+      }
+
+      const response = await axios.get(
+        'https://saraicollection.pythonanywhere.com/api/cart',
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setCartItems(response.data.items || []);
+    } catch (err) {
+      console.error('Error fetching cart items:', err);
+      setError(err.response?.data?.error || 'Failed to load cart items');
+      if (err.response?.status === 401) {
+        localStorage.removeItem('token');
+      }
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  const calculateTotals = () => {
+    const newSubtotal = cartItems.reduce((sum, item) => sum + (item.price * item.quantity), 0);
+    const newShipping = newSubtotal > 1000 ? 0 : 49.99;
+    const newTax = newSubtotal * 0.1;
+    const newTotal = newSubtotal + newShipping + newTax;
+
+    setSubtotal(newSubtotal);
+    setShipping(newShipping);
+    setTax(newTax);
+    setTotal(newTotal);
+  };
+
+  const updateQuantity = async (itemId, newQuantity) => {
+    if (newQuantity < 1) return;
+
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to update cart');
+        return;
+      }
+
+      const formData = new FormData();
+      formData.append('quantity', newQuantity);
+
+      await axios.put(
+        `https://saraicollection.pythonanywhere.com/api/cart/${itemId}`,
+        formData,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            'Content-Type': 'multipart/form-data',
+          },
+        }
+      );
+
+      setCartItems(cartItems.map(item =>
+        item.id === itemId ? { ...item, quantity: newQuantity } : item
+      ));
+
+      toast.success('Cart updated successfully');
+    } catch (err) {
+      console.error('Error updating cart:', err);
+      toast.error(err.response?.data?.error || 'Failed to update cart');
+    }
+  };
+
+  const removeItem = async (itemId) => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        toast.error('Please login to update cart');
+        return;
+      }
+
+      await axios.delete(
+        `https://saraicollection.pythonanywhere.com/api/cart/${itemId}`,
+        {
+          headers: { Authorization: `Bearer ${token}` }
+        }
+      );
+
+      setCartItems(cartItems.filter(item => item.id !== itemId));
+
+      toast.success('Item removed from cart');
+      window.dispatchEvent(new CustomEvent('cartUpdated'));
+    } catch (err) {
+      console.error('Error removing item:', err);
+      toast.error(err.response?.data?.error || 'Failed to remove item');
+    }
+  };
+
+  const getImageUrl = (item) => {
+    if (item.product_image) {
+      return `https://saraicollection.pythonanywhere.com/static/images/${item.product_image}`;
+    }
+    return '/assets/images/placeholder.jpeg';
+  };
+
+  if (loading) {
+    return (
+      <div className="d-flex flex-column min-vh-100">
+        <Navbar />
+        <main className="flex-grow-1 d-flex justify-content-center align-items-center">
+          <FaSpinner className="animate-spin" size={32} />
+        </main>
+        <Footer />
+      </div>
     );
-  };
+  }
 
-  const removeItem = id => {
-    setCartItems(prev => prev.filter(item => item.id !== id));
-  };
-
-  const subtotal = cartItems.reduce(
-    (acc, item) => acc + item.price * item.quantity,
-    0
-  );
-  const shipping = 15.0;
-  const total = subtotal + shipping;
+  if (error) {
+    return (
+      <div className="d-flex flex-column min-vh-100">
+        <Navbar />
+        <main className="flex-grow-1 d-flex justify-content-center align-items-center">
+          <div className="alert alert-danger">{error}</div>
+        </main>
+        <Footer />
+      </div>
+    );
+  }
 
   return (
-    <div className="min-h-screen bg-gray-50 p-4 md:p-8 font-sans">
-      <div className="max-w-6xl mx-auto">
-        <div className="flex items-center gap-3 mb-8">
-          <FiShoppingCart className="text-gray-800 text-2xl" />
-          <h1 className="text-2xl md:text-3xl font-semibold text-gray-800">Your Shopping Cart</h1>
-        </div>
+    <div className="d-flex flex-column min-vh-100">
+      <Navbar />
 
-        {cartItems.length === 0 ? (
-          <div className="text-center py-20 bg-white rounded-lg shadow-sm">
-            <p className="text-lg text-gray-600 mb-6">Your cart is currently empty.</p>
-            <button
-              onClick={() => navigate('/shop')}
-              className="px-6 py-2.5 bg-gray-800 hover:bg-gray-700 text-white rounded-md transition-colors duration-200"
-            >
-              Continue Shopping
-            </button>
-          </div>
-        ) : (
-          <div className="grid md:grid-cols-3 gap-6">
-            <div className="md:col-span-2 space-y-4">
-              {cartItems.map(item => (
-                <div
-                  key={item.id}
-                  className="flex flex-col sm:flex-row gap-4 items-start bg-white p-4 rounded-lg shadow-sm border border-gray-100"
+      <main className="flex-grow-1 py-5">
+        <div className="container">
+          <div className="row">
+            <div className="col-lg-8">
+              <div className="card shadow-sm mb-4">
+                <div className="card-body">
+                  <h2 className="fw-bold mb-4">Your Cart ({cartItems.length})</h2>
+
+                  {cartItems.length === 0 ? (
+                    <div className="text-center py-5">
+                      <h4 className="mb-3">Your cart is empty</h4>
+                      <Link to="/products" className="btn btn-primary">
+                        Continue Shopping
+                      </Link>
+                    </div>
+                  ) : (
+                    <div className="table-responsive">
+                      <table className="table">
+                        <thead>
+                          <tr>
+                            <th>Product</th>
+                            <th>Price</th>
+                            <th>Quantity</th>
+                            <th>Total</th>
+                            <th></th>
+                          </tr>
+                        </thead>
+                        <tbody>
+                          {cartItems.map(item => (
+                            <tr key={item.id}>
+                              <td>
+                                <div className="d-flex align-items-center">
+                                  <img
+                                    src={getImageUrl(item)}
+                                    alt={item.product_name}
+                                    className="rounded me-3"
+                                    style={{ width: '70px', height: '70px', objectFit: 'cover' }}
+                                  />
+                                  <div>
+                                    <h6 className="mb-0">{item.product_name}</h6>
+                                  </div>
+                                </div>
+                              </td>
+                              <td>KES {item.price.toLocaleString()}</td>
+                              <td>
+                                <div className="d-flex align-items-center">
+                                  <button
+                                    className="btn btn-sm btn-outline-secondary"
+                                    onClick={() => updateQuantity(item.id, item.quantity - 1)}
+                                  >
+                                    <FaMinus size={12} />
+                                  </button>
+                                  <span className="mx-2">{item.quantity}</span>
+                                  <button
+                                    className="btn btn-sm btn-outline-secondary"
+                                    onClick={() => updateQuantity(item.id, item.quantity + 1)}
+                                  >
+                                    <FaPlus size={12} />
+                                  </button>
+                                </div>
+                              </td>
+                              <td>KES {(item.price * item.quantity).toLocaleString()}</td>
+                              <td>
+                                <button
+                                  className="btn btn-sm btn-outline-danger"
+                                  onClick={() => removeItem(item.id)}
+                                >
+                                  <FaTrash />
+                                </button>
+                              </td>
+                            </tr>
+                          ))}
+                        </tbody>
+                      </table>
+                    </div>
+                  )}
+                </div>
+              </div>
+
+              <div className="d-flex justify-content-between mb-4">
+                <Link to="/products" className="btn btn-outline-primary">
+                  Continue Shopping
+                </Link>
+                <button
+                  className="btn btn-outline-danger"
+                  onClick={() => {
+                    if (window.confirm('Are you sure you want to clear your cart?')) {
+                      cartItems.forEach(item => removeItem(item.id));
+                    }
+                  }}
                 >
-                  <img
-                    src={item.image}
-                    alt={item.name}
-                    className="w-full sm:w-32 h-32 object-cover rounded-md"
-                  />
-                  <div className="flex-1 w-full">
-                    <div className="flex justify-between items-start">
-                      <div>
-                        <h2 className="text-lg font-medium text-gray-800">
-                          {item.name}
-                        </h2>
-                        <p className="text-sm text-gray-500 mt-1">Size: {item.size}</p>
-                        <p className="text-base text-gray-800 font-medium mt-1">
-                          ${item.price.toFixed(2)}
-                        </p>
-                      </div>
-                      <button
-                        onClick={() => removeItem(item.id)}
-                        className="text-gray-400 hover:text-red-500 transition-colors"
-                      >
-                        <FiX size={18} />
-                      </button>
+                  Clear Cart
+                </button>
+              </div>
+            </div>
+
+            <div className="col-lg-4">
+              <div className="card shadow-sm sticky-top" style={{ top: '20px' }}>
+                <div className="card-body">
+                  <h3 className="fw-bold mb-4">Order Summary</h3>
+
+                  <div className="mb-3">
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>Subtotal</span>
+                      <span>KES {subtotal.toLocaleString()}</span>
+                    </div>
+                    <div className="d-flex justify-content-between mb-2">
+                      <span>Shipping</span>
+                      <span>KES {shipping.toLocaleString()}</span>
+                    </div>
+                    <div className="d-flex justify-content-between mb-3">
+                      <span>Tax (10%)</span>
+                      <span>KES {tax.toLocaleString()}</span>
                     </div>
 
-                    <div className="flex items-center gap-4 mt-4">
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity - 1)}
-                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
-                      >
-                        <FiMinus size={14} />
-                      </button>
-                      <span className="text-gray-800 w-6 text-center">{item.quantity}</span>
-                      <button
-                        onClick={() => updateQuantity(item.id, item.quantity + 1)}
-                        className="w-8 h-8 flex items-center justify-center border border-gray-300 rounded-md text-gray-600 hover:bg-gray-100 transition-colors"
-                      >
-                        <FiPlus size={14} />
-                      </button>
+                    <hr />
+
+                    <div className="d-flex justify-content-between fw-bold">
+                      <span>Total</span>
+                      <span>KES {total.toLocaleString()}</span>
                     </div>
                   </div>
-                </div>
-              ))}
-            </div>
 
-            <div className="bg-white border border-gray-200 p-6 rounded-lg shadow-sm">
-              <h2 className="text-xl font-semibold text-gray-800 mb-4">
-                Order Summary
-              </h2>
-              <div className="space-y-3 mb-4">
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Subtotal</span>
-                  <span className="text-gray-800">${subtotal.toFixed(2)}</span>
-                </div>
-                <div className="flex justify-between">
-                  <span className="text-gray-600">Shipping</span>
-                  <span className="text-gray-800">${shipping.toFixed(2)}</span>
+                  <button
+                    className="btn btn-primary w-100 py-3 fw-bold"
+                    disabled={cartItems.length === 0}
+                  >
+                    Proceed to Checkout
+                  </button>
                 </div>
               </div>
-              <div className="border-t border-gray-200 pt-4 flex justify-between font-medium">
-                <span className="text-gray-800">Total</span>
-                <span className="text-gray-900">${total.toFixed(2)}</span>
-              </div>
-
-              <button
-                onClick={() => navigate('/checkout')}
-                className="w-full mt-6 py-3 bg-gray-800 hover:bg-gray-700 text-white font-medium rounded-md transition-colors duration-200"
-              >
-                Proceed to Checkout
-              </button>
-
-              <button
-                onClick={() => navigate('/shop')}
-                className="w-full py-2.5 mt-3 border border-gray-300 text-gray-700 hover:bg-gray-50 rounded-md transition-colors duration-200"
-              >
-                Continue Shopping
-              </button>
             </div>
           </div>
-        )}
-      </div>
+        </div>
+      </main>
+
+      <Footer />
     </div>
   );
 };

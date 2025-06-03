@@ -10,32 +10,64 @@ const api = axios.create({
   }
 });
 
-// Add request interceptor to include token
+// Request interceptor for auth token
 api.interceptors.request.use(config => {
   const token = localStorage.getItem('token');
-  
   if (token) {
     config.headers.Authorization = `Bearer ${token}`;
-  } else {
-    console.warn('No token found in localStorage');
   }
-  
   return config;
 }, error => {
   return Promise.reject(error);
 });
 
-// Add response interceptor to handle errors
-api.interceptors.response.use(response => response, error => {
-  if (error.response?.status === 401) {
-    // Token expired or invalid
-    localStorage.removeItem('token');
-    window.location.href = '/login'; // Redirect to login
+// Response interceptor for error handling
+api.interceptors.response.use(
+  response => response,
+  error => {
+    const originalRequest = error.config;
+    
+    // Handle unauthorized (401) errors
+    if (error.response?.status === 401 && !originalRequest._retry) {
+      originalRequest._retry = true;
+      localStorage.removeItem('token');
+      window.location.href = '/login?redirect=' + encodeURIComponent(window.location.pathname);
+      return Promise.reject(error);
+    }
+    
+    // Handle other errors
+    return Promise.reject(error);
+
   }
-  return Promise.reject(error);
-});
+);
 
-
+// Product API methods
+export const productApi = {
+  getFeatured: async () => {
+    const response = await api.get('/api/products?featured=true&limit=8');
+    return response.data;
+  },
+  getAll: async () => {
+    const response = await api.get('/api/products');
+    return response.data;
+  },
+  getById: async (id) => {
+    const response = await api.get(`/api/products/${id}`);
+    return response.data;
+  },
+  create: async (productData) => {
+    const response = await api.post('/api/products', productData);
+    return response.data;
+  },
+  update: async (id, productData) => {
+    const response = await api.put(`/api/products/${id}`, productData);
+    return response.data;
+  },
+  delete: async (id) => {
+    const response = await api.delete(`/api/products/${id}`);
+    return response.data;
+  }
+};
 export const getFeaturedProducts = async () => {
   const response = await api.get('/api/products?featured=true&limit=8');
   return response.data;
@@ -80,7 +112,6 @@ export const updateOrderStatus = async (id, status) => {
   const response = await api.put(`/api/orders/${id}/status`, { status });
   return response.data;
 };
-
 export const getUsers = async () => {
   try {
     const response = await axios.get('https://saraicollection.pythonanywhere.com/api/users')
@@ -103,25 +134,83 @@ export const getCurrentUser = async () => {
 };
 
 
-export const getDashboardStats = async () => {
-  const response = await api.get('/api/dashboard/stats');
-  return response.data;
+
+
+// Order API methods
+export const orderApi = {
+  getAll: async () => {
+    const response = await api.get('/api/orders');
+    return response.data;
+  },
+  getById: async (id) => {
+    const response = await api.get(`/api/orders/${id}`);
+    return response.data;
+  },
+  updateStatus: async (id, status) => {
+    const response = await api.put(`/api/orders/${id}/status`, { status });
+    return response.data;
+  },
+  create: async (orderData) => {
+    const response = await api.post('/api/orders', orderData);
+    return response.data;
+  }
 };
 
-// Add to your api.js
-api.interceptors.response.use(
-  response => response,
-  error => {
-    if (error.response?.status === 401) {
-      // Handle unauthorized (redirect to login)
-      window.location = '/login';
-    } else if (error.response?.status === 403) {
-      // Don't redirect for 403, just reject
-      return Promise.reject(error);
+// User API methods
+export const userApi = {
+  getAll: async () => {
+    try {
+      const response = await api.get('/api/users');
+      return response.data;
+    } catch (err) {
+      console.error('Error fetching users:', {
+        status: err.response?.status,
+        data: err.response?.data,
+        message: err.message
+      });
+      throw err;
     }
-    return Promise.reject(error);
+  },
+  update: async (id, userData) => {
+    const response = await api.put(`/api/users/${id}`, userData);
+    return response.data;
+  },
+  getCurrent: async () => {
+    const response = await api.get('/api/users/me');
+    return response.data;
   }
-);
+};
+
+// Cart API methods
+export const cartApi = {
+  getCart: async () => {
+    const response = await api.get('/api/cart');
+    return response.data;
+  },
+  addItem: async (productId, quantity = 1) => {
+    const response = await api.post('/api/cart/items', { productId, quantity });
+    return response.data;
+  },
+  updateItem: async (itemId, quantity) => {
+    const response = await api.put(`/api/cart/items/${itemId}`, { quantity });
+    return response.data;
+  },
+  removeItem: async (itemId) => {
+    const response = await api.delete(`/api/cart/items/${itemId}`);
+    return response.data;
+  },
+  clearCart: async () => {
+    const response = await api.delete('/api/cart');
+    return response.data;
+  }
+};
+
+// Dashboard API methods
+export const dashboardApi = {
+  getStats: async () => {
+    const response = await api.get('/api/dashboard/stats');
+    return response.data;
+  }
+};
 
 export default api;
-

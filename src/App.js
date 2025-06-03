@@ -7,12 +7,10 @@ import Signin from './components/Signin';
 import Signup from './components/Signup';
 import Admindashboard from './components/Admindashboard.jsx';
 import AboutUs from './components/AboutUs/AboutUs.jsx'
-import Carousel from './components/Carousel/Carousel.jsx'
-
 import Makepayment from './components/Makepayment/Makepayment.jsx'
 import PaymentSuccess from './components/Makepayment/PaymentSuccess.jsx'
-import Footer from './components/Footer';
 import Cart from './components/Cart/Cart.jsx';
+import ProductList from './components/ProductList.jsx'
 import UserDetails from './components/UsersDetails.jsx';
 import AddProductForm from './components/AddProductForm';
 import EditProductForm from './components/EditProductForm.jsx';
@@ -30,10 +28,8 @@ function App() {
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<Admindashboard/>} />
-            <Route path="/" element={<Footer/>} />
-            <Route path="/" element={<Carousel/>} />
             <Route path="/about-us" element={<AboutUs/>} />
-            
+            <Route path="/products-list" element={<ProductList/>} />
             <Route path="/admin/users/:id" element={<UserDetails />} />
             <Route path="/cart" element={<Cart/>} />
             <Route path="/make-payment" element={<Makepayment/>} />
