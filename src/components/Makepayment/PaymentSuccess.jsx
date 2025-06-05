@@ -109,7 +109,7 @@ const PaymentSuccess = () => {
                   <div className="d-flex flex-column flex-md-row justify-content-center gap-3">
                     <button 
                       className="btn btn-gold px-4 py-2"
-                      onClick={() => navigate('/products')}
+                      onClick={() => navigate('/')}
                     >
                       Continue Shopping
                     </button>

@@ -168,7 +168,7 @@ const Cart = () => {
                   {cartItems.length === 0 ? (
                     <div className="text-center py-5">
                       <h4 className="mb-3">Your cart is empty</h4>
-                      <Link to="/products" className="btn btn-primary">
+                      <Link to="/" className="btn btn-primary">
                         Continue Shopping
                       </Link>
                     </div>
@@ -236,12 +236,12 @@ const Cart = () => {
                 </div>
               </div>
 
-              <div className="d-flex justify-content-between mb-4">
-                <Link to="/products" className="btn btn-outline-primary">
+              <div className="d-flex justify-content-between mb-4 ">
+                <Link to="/" className="btn btn-outline-primary  px-5 py-4">
                   Continue Shopping
                 </Link>
                 <button
-                  className="btn btn-outline-danger"
+                  className="btn btn-outline-danger  px-5 py-3"
                   onClick={() => {
                     if (window.confirm('Are you sure you want to clear your cart?')) {
                       cartItems.forEach(item => removeItem(item.id));

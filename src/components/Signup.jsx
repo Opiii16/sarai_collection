@@ -109,8 +109,8 @@ const Signup = () => {
 
   return (
     <div className="container d-flex justify-content-center align-items-center min-vh-100 bg-light">
-      <div className="card p-4 border-0 shadow" style={{ maxWidth: '800px', borderRadius: '20px' }}>
-        <div className="card-body">
+      <div className="card p-3 border-0 shadow" style={{ maxWidth: '800px', borderRadius: '15px'}}>
+        <div className="card-body p-3">
           <h2 className="card-title text-center mb-3 text-primary">Create Account</h2>
           <p className="text-center text-muted mb-4">Join our community today</p>
 
@@ -276,27 +276,20 @@ const Signup = () => {
               <span className="px-3 text-muted">OR</span>
               <hr className="flex-grow-1" />
             </div>
+             
+                        <div className="d-flex justify-content-center gap-3 mb-3">
+                          <button type="button" className="btn btn-outline-danger rounded-circle p-2">
+                            <FaGoogle className="fs-5" />
+                          </button>
+                          <button type="button" className="btn btn-outline-secondary rounded-circle p-2">
+                            <FaFacebook className="fs-5" />
+                          </button>
+                          <button type="button" className="btn btn-outline-info rounded-circle p-2">
+                            <FaApple className="fs-5" />
+                          </button>
+                        </div>
 
-            <div className="d-flex flex-column gap-2 mb-4">
-              <button
-                type="button"
-                className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2 py-2"
-              >
-                <FaGoogle className="fs-5" /> Continue with Google
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-primary d-flex align-items-center justify-content-center gap-2 py-2"
-              >
-                <FaFacebook className="fs-5" /> Continue with Facebook
-              </button>
-              <button
-                type="button"
-                className="btn btn-outline-dark d-flex align-items-center justify-content-center gap-2 py-2"
-              >
-                <FaApple className="fs-5" /> Continue with Apple
-              </button>
-            </div>
+            
           </form>
         </div>
       </div>

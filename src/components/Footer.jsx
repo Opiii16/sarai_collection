@@ -50,8 +50,8 @@ const Footer = () => {
             <p className="footer-text">
               <i className="fas fa-map-marker-alt"></i> 123 Luxury Avenue, Fashion District<br />
               New York, NY 10001<br />
-              <i className="fas fa-phone"></i> +1 (555) 123-4567<br />
-              <i className="fas fa-envelope"></i> info@saraicollection.com
+              <i className="fas fa-phone"></i> 0727934184<br />
+              <i className="fas fa-envelope"></i> saraicollection@gmail.com
             </p>
           </div>
         </div>
