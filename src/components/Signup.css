@@ -175,3 +175,94 @@
       font-size: 1.75rem !important;
     }
   }
+  /* Add this to your global CSS file or component-specific CSS */
+.dark-gold-theme {
+  background-color: #121212 !important;
+  color: #e0e0e0 !important;
+}
+
+.dark-gold-theme .card {
+  background-color: #1e1e1e !important;
+  border: 1px solid #3d3d3d !important;
+}
+
+.dark-gold-theme .text-primary {
+  color: #d4af37 !important; /* Gold color */
+}
+
+.dark-gold-theme .btn-primary {
+  background-color: #d4af37 !important;
+  border-color: #d4af37 !important;
+  color: #121212 !important;
+}
+
+.dark-gold-theme .btn-primary:hover {
+  background-color: #c9a227 !important;
+  border-color: #c9a227 !important;
+}
+
+.dark-gold-theme .btn-outline-primary {
+  color: #d4af37 !important;
+  border-color: #d4af37 !important;
+}
+
+.dark-gold-theme .btn-outline-primary:hover {
+  background-color: #d4af37 !important;
+  color: #121212 !important;
+}
+
+.dark-gold-theme .form-control {
+  background-color: #535252 !important;
+  border-color: #3a3939 !important;
+  color: #e0e0e0 !important;
+}
+
+.dark-gold-theme .form-control:focus {
+  border-color: #d4af37 !important;
+  box-shadow: 0 0 0 0.25rem rgba(212, 175, 55, 0.25) !important;
+}
+
+.dark-gold-theme .form-check-input:checked {
+  background-color: #d4af37 !important;
+  border-color: #d4af37 !important;
+}
+
+.dark-gold-theme .alert {
+  background-color: #2d2d2d !important;
+  border-color: #3d3d3d !important;
+  color: #e0e0e0 !important;
+}
+
+.dark-gold-theme .alert-success {
+  background-color: #1a2e1a !important;
+  border-color: #2d4a2d !important;
+  color: #a0e0a0 !important;
+}
+
+.dark-gold-theme .alert-danger {
+  background-color: #2e1a1a !important;
+  border-color: #4a2d2d !important;
+  color: #e0a0a0 !important;
+}
+
+.dark-gold-theme .alert-info {
+  background-color: #1a1e2e !important;
+  border-color: #2d324a !important;
+  color: #a0a0e0 !important;
+}
+
+.dark-gold-theme hr {
+  border-color: #3d3d3d !important;
+}
+
+.dark-gold-theme a {
+  color: #d4af37 !important;
+}
+
+.dark-gold-theme a:hover {
+  color: #c9a227 !important;
+}
+
+.dark-gold-theme .text-muted {
+  color: #8a8a8a !important;
+}

@@ -147,7 +147,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
         </h3>
 
         <p className="product-description">
-          {short_description || 'Premium quality fabric with exquisite detailing'}
+          {short_description}
         </p>
 
         <div className="price-cart">

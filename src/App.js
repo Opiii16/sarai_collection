@@ -10,7 +10,7 @@ import AboutUs from './components/AboutUs/AboutUs.jsx'
 import Makepayment from './components/Makepayment/Makepayment.jsx'
 import PaymentSuccess from './components/Makepayment/PaymentSuccess.jsx'
 import Cart from './components/Cart/Cart.jsx';
-import ProductList from './components/ProductList.jsx'
+import Product from './components/Product.jsx'
 import UserDetails from './components/UsersDetails.jsx';
 import AddProductForm from './components/AddProductForm';
 import EditProductForm from './components/EditProductForm.jsx';
@@ -29,9 +29,10 @@ function App() {
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<Admindashboard/>} />
             <Route path="/about-us" element={<AboutUs/>} />
-            <Route path="/products-list" element={<ProductList/>} />
+            <Route path="/products" element={<Product/>} />
             <Route path="/admin/users/:id" element={<UserDetails />} />
             <Route path="/cart" element={<Cart/>} />
+
             <Route path="/make-payment" element={<Makepayment/>} />
             <Route path="/payment-success" element={<PaymentSuccess/>} />
             <Route path='/admin/products/new' element={<AddProductForm />} /> 

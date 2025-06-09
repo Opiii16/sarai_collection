@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { FaGoogle, FaFacebookF, FaGithub, FaSpinner } from 'react-icons/fa';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import axios from 'axios';
-import { validateEmail } from './utils/validation';
+import { validateEmail } from '../utils/validation';
 import './Signin.css'
 
 const Signin = () => {
@@ -143,6 +143,7 @@ const Signin = () => {
                 type="password" 
                 id="password"
                 name="password"
+                autoComplete="current-password"
                 className={`form-control ${errors.password ? 'is-invalid' : ''}`}
                 placeholder="Password"
                 value={formData.password}

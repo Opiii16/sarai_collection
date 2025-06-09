@@ -118,8 +118,8 @@ const Navbar = () => {
                 Ladies Wear
               </Link>
               <ul className="dropdown-menu gold-dropdown" aria-labelledby="ladiesDropdown">
-                <li><Link className="dropdown-item" to="/ladies/dresses">Dresses</Link></li>
-                <li><Link className="dropdown-item" to="/ladies/tops">Tops</Link></li>
+                <li><Link className="dropdown-item" to="/ladies/dresses">bags</Link></li>
+                <li><Link className="dropdown-item" to="/ladies/tops">shoes</Link></li>
                 <li><Link className="dropdown-item" to="/ladies/bottoms">Bottoms</Link></li>
                 <li><Link className="dropdown-item" to="/ladies/evening">Evening Wear</Link></li>
               </ul>
