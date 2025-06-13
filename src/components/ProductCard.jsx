@@ -18,6 +18,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
     category_name = 'Luxury',
     short_description = 'Elegant fashion piece from our exclusive collection',
     is_featured = false,
+    is_active = true,
     images = [],
   } = product || {};
 
@@ -53,9 +54,14 @@ const ProductCard = ({ product, onCartUpdate }) => {
   };
 
   const handleAddToCart = async (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    e.stopPropagation(); // Stop event bubbling
+    e.preventDefault();
+    e.stopPropagation();
     
+    if (!is_active) {
+      toast.error('This product is currently sold out');
+      return;
+    }
+
     try {
       const token = localStorage.getItem('token');
       if (!token) {
@@ -114,12 +120,14 @@ const ProductCard = ({ product, onCartUpdate }) => {
   return (
     <div className="sarai-product-card" onClick={() => navigate(`/products/${id}`)}>
       <div className="card-image-container">
+        {!is_active && <div className="sold-out-overlay">SOLD OUT</div>}
         <div
           className="card-image"
           style={{
             backgroundImage: imageUrl
               ? `linear-gradient(to bottom, rgba(26, 26, 26, 0.2), rgba(43, 32, 0, 0.7)), url(${imageUrl})`
               : 'linear-gradient(135deg, #1a1a1a 0%, #2b2000 50%, #1a1a1a 100%)',
+            opacity: !is_active ? 0.7 : 1
           }}
         >
           {is_featured && <span className="featured-badge">Exclusive</span>}
@@ -161,7 +169,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
             className="add-to-cart"
             onClick={(e) => handleAddToCart(e)}
             aria-label={`Add ${name} to cart`}
-            disabled={isAdding}
+            disabled={isAdding || !is_active}
           >
             {isAdding ? <FaSpinner className="animate-spin" /> : <FaShoppingCart />}
           </button>
