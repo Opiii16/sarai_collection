@@ -254,7 +254,7 @@ const Cart = () => {
             </div>
 
             <div className="col-lg-4">
-              <div className="card shadow-sm sticky-top" style={{ top: '20px' }}>
+              <div className="card shadow-sm" style={{ top: '20px' }}>
                 <div className="card-body">
                   <h3 className="fw-bold mb-4">Order Summary</h3>
 
