@@ -1,0 +1,244 @@
+.men-collection {  
+  font-family: 'Montserrat', sans-serif;  
+  color: #222;  
+  max-width: 1200px;  
+  margin: 0 auto;  
+}  
+
+.collection-header {  
+  text-align: center;  
+  padding: 2rem 0;  
+  background: linear-gradient(to right, #f0f2f5, #e0e5ec);  
+}  
+
+.collection-header h1 {  
+  font-size: 3rem;  
+  font-weight: 800;  
+  letter-spacing: 0.2rem;  
+  color: #111;  
+}  
+
+.tagline {  
+  font-size: 1.2rem;  
+  text-transform: uppercase;  
+  letter-spacing: 0.1rem;  
+  margin-top: 0.5rem;  
+  color: #555;  
+}  
+
+.hero-banner {  
+  background-image: url('https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');  
+  height: 70vh;  
+  background-size: cover;  
+  background-position: center 30%;  
+  display: flex;  
+  align-items: center;  
+  position: relative;  
+}  
+
+.hero-banner::before {  
+  content: '';  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  background: rgba(0,0,0,0.4);  
+}  
+
+.hero-text {  
+  position: relative;  
+  z-index: 1;  
+  color: white;  
+  padding: 2rem;  
+  max-width: 600px;  
+}  
+
+.hero-text h2 {  
+  font-size: 2.5rem;  
+  margin-bottom: 1rem;  
+  text-shadow: 1px 1px 3px rgba(0,0,0,0.8);  
+  font-weight: 700;  
+}  
+
+.shop-now {  
+  background: transparent;  
+  color: white;  
+  border: 2px solid white;  
+  padding: 1rem 2rem;  
+  font-size: 1rem;  
+  font-weight: bold;  
+  cursor: pointer;  
+  transition: all 0.3s ease;  
+  letter-spacing: 0.1rem;  
+}  
+
+.shop-now:hover {  
+  background: white;  
+  color: #111;  
+  transform: translateY(-2px);  
+}  
+
+.featured-categories {  
+  display: flex;  
+  justify-content: space-between;  
+  padding: 3rem 0;  
+}  
+
+.category-card {  
+  width: 30%;  
+  text-align: center;  
+}  
+
+.category-image {  
+  height: 300px;  
+  background-size: cover;  
+  background-position: center;  
+  margin-bottom: 1rem;  
+  transition: transform 0.3s ease;  
+}  
+
+.category-image:hover {  
+  transform: scale(1.03);  
+}  
+
+.tailored-suits {  
+  background-image: url('https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');  
+}  
+
+.streetwear {  
+  background-image: url('https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');  
+}  
+
+.weekend-luxury {  
+  background-image: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');  
+}  
+
+.trend-alert {  
+  background: #111;  
+  color: white;  
+  padding: 2rem;  
+  text-align: center;  
+  margin: 2rem 0;  
+}  
+
+.trend-alert h2 {  
+  font-weight: 300;  
+  letter-spacing: 0.2rem;  
+}  
+
+.trend-items {  
+  display: flex;  
+  justify-content: center;  
+  gap: 2rem;  
+  margin-top: 1.5rem;  
+}  
+
+.trend-item {  
+  width: 200px;  
+}  
+
+.trend-img {  
+  height: 200px;  
+  background-size: cover;  
+  background-position: center;  
+  margin-bottom: 0.5rem;  
+}  
+
+.overshirts {  
+  background-image: url('https://images.unsplash.com/photo-1600185365483-26d7a4cc7519?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');  
+}  
+
+.tech-fabrics {  
+  background-image: url('https://images.unsplash.com/photo-1520367445093-50dc08a59d9d?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');  
+}  
+
+.monochrome {  
+  background-image: url('https://images.unsplash.com/photo-1598033129183-c4f50c736f10?ixlib=rb-1.2.1&auto=format&fit=crop&w=1350&q=80');  
+}  
+
+.style-tip {  
+  background-image: url('https://images.unsplash.com/photo-1551232864-3f0890e580d9?ixlib=rb-1.2.1&auto=format&fit=crop&w=634&q=80');  
+  background-size: cover;  
+  background-position: center;  
+  padding: 4rem 2rem;  
+  margin: 2rem 0;  
+  position: relative;  
+}  
+
+.style-tip::before {  
+  content: '';  
+  position: absolute;  
+  top: 0;  
+  left: 0;  
+  right: 0;  
+  bottom: 0;  
+  background: rgba(0,0,0,0.7);  
+}  
+
+.tip-content {  
+  position: relative;  
+  z-index: 1;  
+  color: white;  
+  max-width: 600px;  
+  margin: 0 auto;  
+}  
+
+.tip-content h3 {  
+  font-size: 1.5rem;  
+  margin-bottom: 1rem;  
+  text-transform: uppercase;  
+  letter-spacing: 0.1rem;  
+}  
+
+.testimonial {  
+  font-style: italic;  
+  text-align: center;  
+  padding: 3rem;  
+  background: #f5f5f5;  
+  margin: 2rem 0;  
+}  
+
+.customer-name {  
+  font-weight: bold;  
+  margin-top: 1rem;  
+  font-style: normal;  
+}  
+
+.cta-section {  
+  text-align: center;  
+  padding: 3rem 0;  
+  background: #111;  
+  color: white;  
+}  
+
+.cta-section h2 {  
+  font-weight: 300;  
+  letter-spacing: 0.1rem;  
+}  
+
+.join-club {  
+  background: white;  
+  color: #111;  
+  border: none;  
+  padding: 1rem 2rem;  
+  font-size: 1rem;  
+  font-weight: bold;  
+  margin-top: 1rem;  
+  cursor: pointer;  
+  letter-spacing: 0.1rem;  
+  transition: all 0.3s ease;  
+}  
+
+.join-club:hover {  
+  background: #ddd;  
+  transform: translateY(-2px);  
+}  
+
+.collection-footer {  
+  text-align: center;  
+  padding: 2rem 0;  
+  background: #222;  
+  color: #aaa;  
+  font-size: 0.9rem;  
+}  

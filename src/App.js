@@ -5,6 +5,9 @@ import 'bootstrap/dist/js/bootstrap.min.js'
 import HomePage from './components/Homepage/Homepage.jsx';
 import Signin from './components/Signin';
 import Signup from './components/Signup';
+import Ladies from './components/Ladies/Ladies.jsx';
+import Men from './components/Men/Men.jsx';
+import Kids from './components/Kids/Kids.jsx';
 import Admindashboard from './components/Admindashboard.jsx';
 import AboutUs from './components/AboutUs/AboutUs.jsx'
 import Makepayment from './components/Makepayment/Makepayment.jsx'
@@ -14,6 +17,7 @@ import Product from './components/Product.jsx'
 import UserDetails from './components/UsersDetails.jsx';
 import AddProductForm from './components/AddProductForm';
 import EditProductForm from './components/EditProductForm.jsx';
+
 
 function App() {
   return (
@@ -25,6 +29,10 @@ function App() {
         <main className="app-content">
           <Routes>
             <Route path="/" element={<HomePage />} />
+            <Route path="/ladies" element={<Ladies />} />
+            <Route path="/men" element={<Men />} />
+            <Route path="/kids" element={<Kids />} />
+
             <Route path="/signin" element={<Signin />} />
             <Route path="/signup" element={<Signup />} />
             <Route path="/admin" element={<Admindashboard/>} />

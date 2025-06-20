@@ -5,7 +5,7 @@ import axios from 'axios';
 import { toast } from 'react-toastify';
 import './ProductCard.css';
 
-const ProductCard = ({ product, onCartUpdate }) => {
+const ProductCard = ({ product, onCartUpdate, isSoldOut = false }) => {  // Added isSoldOut prop
   const navigate = useNavigate();
   const [isAdding, setIsAdding] = useState(false);
 
@@ -53,8 +53,10 @@ const ProductCard = ({ product, onCartUpdate }) => {
   };
 
   const handleAddToCart = async (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    e.stopPropagation(); // Stop event bubbling
+    if (isSoldOut) return;  // Prevent adding to cart if sold out
+    
+    e.preventDefault();
+    e.stopPropagation();
     
     try {
       const token = localStorage.getItem('token');
@@ -81,11 +83,8 @@ const ProductCard = ({ product, onCartUpdate }) => {
       );
 
       toast.success(`${name} added to cart!`);
-      
-      // Navigate to cart after adding
       navigate('/cart');
 
-      // Trigger cart update for navbar badge
       if (onCartUpdate) {
         onCartUpdate();
       } else {
@@ -112,7 +111,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
   };
 
   return (
-    <div className="sarai-product-card" onClick={() => navigate(`/products/${id}`)}>
+    <div className={`sarai-product-card ${isSoldOut ? 'sold-out' : ''}`} onClick={() => !isSoldOut && navigate(`/products/${id}`)}>
       <div className="card-image-container">
         <div
           className="card-image"
@@ -123,6 +122,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
           }}
         >
           {is_featured && <span className="featured-badge">Exclusive</span>}
+          {isSoldOut && <span className="sold-out-badge">Sold Out</span>}  {/* Added Sold Out badge */}
           <button 
             className="wishlist-btn" 
             aria-label="Add to wishlist"
@@ -161,7 +161,7 @@ const ProductCard = ({ product, onCartUpdate }) => {
             className="add-to-cart"
             onClick={(e) => handleAddToCart(e)}
             aria-label={`Add ${name} to cart`}
-            disabled={isAdding}
+            disabled={isAdding || isSoldOut}  // Disable if sold out
           >
             {isAdding ? <FaSpinner className="animate-spin" /> : <FaShoppingCart />}
           </button>

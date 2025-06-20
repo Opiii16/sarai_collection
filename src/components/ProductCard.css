@@ -232,3 +232,39 @@
   font-size: 0.8rem;
   margin-top: 8px;
 }
+/* Add these to your existing ProductCard.css */
+.sarai-product-card.sold-out {
+  opacity: 0.8;
+  position: relative;
+}
+
+.sold-out-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  background-color: #d9534f;
+  color: white;
+  padding: 5px 10px;
+  border-radius: 3px;
+  font-size: 12px;
+  font-weight: bold;
+  text-transform: uppercase;
+  z-index: 2;
+}
+
+.sarai-product-card.sold-out::after {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgba(0, 0, 0, 0.3);
+  z-index: 1;
+  pointer-events: none;
+}
+
+.sarai-product-card.sold-out .add-to-cart {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
