@@ -18,6 +18,7 @@ const ProductCard = ({ product, onCartUpdate, isSoldOut = false }) => {  // Adde
     category_name = 'Luxury',
     short_description = 'Elegant fashion piece from our exclusive collection',
     is_featured = false,
+    is_active = true,
     images = [],
   } = product || {};
 
@@ -53,10 +54,8 @@ const ProductCard = ({ product, onCartUpdate, isSoldOut = false }) => {  // Adde
   };
 
   const handleAddToCart = async (e) => {
-    if (isSoldOut) return;  // Prevent adding to cart if sold out
-    
-    e.preventDefault();
-    e.stopPropagation();
+    e.preventDefault(); // Prevent default link behavior
+    e.stopPropagation(); // Stop event bubbling
     
     try {
       const token = localStorage.getItem('token');
@@ -113,12 +112,14 @@ const ProductCard = ({ product, onCartUpdate, isSoldOut = false }) => {  // Adde
   return (
     <div className={`sarai-product-card ${isSoldOut ? 'sold-out' : ''}`} onClick={() => !isSoldOut && navigate(`/products/${id}`)}>
       <div className="card-image-container">
+        {!is_active && <div className="sold-out-overlay">SOLD OUT</div>}
         <div
           className="card-image"
           style={{
             backgroundImage: imageUrl
               ? `linear-gradient(to bottom, rgba(26, 26, 26, 0.2), rgba(43, 32, 0, 0.7)), url(${imageUrl})`
               : 'linear-gradient(135deg, #1a1a1a 0%, #2b2000 50%, #1a1a1a 100%)',
+            opacity: !is_active ? 0.7 : 1
           }}
         >
           {is_featured && <span className="featured-badge">Exclusive</span>}
@@ -161,7 +162,7 @@ const ProductCard = ({ product, onCartUpdate, isSoldOut = false }) => {  // Adde
             className="add-to-cart"
             onClick={(e) => handleAddToCart(e)}
             aria-label={`Add ${name} to cart`}
-            disabled={isAdding || isSoldOut}  // Disable if sold out
+            disabled={isAdding}
           >
             {isAdding ? <FaSpinner className="animate-spin" /> : <FaShoppingCart />}
           </button>
