@@ -55,8 +55,29 @@ const Navbar = () => {
       }
     };
 
-    const handleCartUpdate = (e) => {
-      setCartCount(Number(e.detail?.count) || 0);
+    const handleCartUpdate = async (e) => {
+      const newCount = Number(e.detail?.count);
+      if (newCount >= 0) {
+        setCartCount(newCount);
+        return;
+      }
+
+      const token = localStorage.getItem('token');
+      if (token) {
+        try {
+          setIsCartLoading(true);
+          const response = await axios.get('https://saraicollection.pythonanywhere.com/api/cart', {
+            headers: { Authorization: `Bearer ${token}` },
+          });
+          console.log('Navbar cart API response:', response.data); // Debug
+          setCartCount(response.data?.items?.length || 0);
+        } catch (err) {
+          console.error('Error fetching cart on update:', err);
+          setCartCount(0);
+        } finally {
+         setIsCartLoading(false);
+        }
+      }
     };
 
     window.addEventListener('cartUpdated', handleCartUpdate);
@@ -174,7 +195,7 @@ const Navbar = () => {
             <Link to="/cart" className="btn gold-btn-outline me-3 position-relative" aria-label="View cart">
               {isCartLoading ? <FaSpinner className="animate-spin" /> : <FaShoppingCart />}
               {cartCount > 0 && !isCartLoading && (
-                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-dark">
+                <span className="position-absolute top-0 start-100 translate-middle badge rounded-pill bg-gold text-warning">
                   {cartCount}
                 </span>
               )}

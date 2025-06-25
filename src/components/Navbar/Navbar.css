@@ -149,3 +149,32 @@
       margin-left: 20px;
     }
   }
+
+  .bg-gold {
+  background-color: #D4AF37 !important;
+}
+
+.badge {
+  font-size: 0.75rem;
+  padding: 0.25em 0.5em;
+  line-height: 1;
+  min-width: 1.5em;
+  text-align: center;
+  color: #000000 !important;
+  z-index: 10;
+  border: 1px solid #000000;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.badge.position-absolute {
+  top: -5px;
+  right: -10px;
+  transform: translate(50%, -50%);
+}
+
+@media (max-width: 576px) {
+  .badge {
+    font-size: 0.65rem;
+    padding: 0.2em 0.4em;
+  }
+}

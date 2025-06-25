@@ -17,15 +17,14 @@ import Product from './components/Product.jsx'
 import UserDetails from './components/UsersDetails.jsx';
 import AddProductForm from './components/AddProductForm';
 import EditProductForm from './components/EditProductForm.jsx';
+import { ToastContainer } from 'react-toastify';
 
 
 function App() {
   return (
     <Router>
       <div className="app-container">
-
-
-       
+        <ToastContainer />
         <main className="app-content">
           <Routes>
             <Route path="/" element={<HomePage />} />

@@ -1,171 +1,238 @@
 import React, { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaStar, FaRegStar, FaShoppingCart, FaHeart, FaSpinner } from 'react-icons/fa';
+import { FaShoppingCart, FaPlus, FaMinus, FaSpinner } from 'react-icons/fa';
 import axios from 'axios';
 import { toast } from 'react-toastify';
-import './ProductCard.css';
 
-const ProductCard = ({ product, onCartUpdate, isSoldOut = false }) => {  // Added isSoldOut prop
+const defaultImage = '/assets/images/def.png';
+
+const ProductCard = ({ product }) => {
   const navigate = useNavigate();
-  const [isAdding, setIsAdding] = useState(false);
+  const [quantity, setQuantity] = useState(1);
+  const [isAddingToCart, setIsAddingToCart] = useState(false);
+  const [showQuantityControls, setShowQuantityControls] = useState(false);
 
   const {
-    id = '',
-    name = 'Sarai Collection Item',
+    id = 0,
+    name = 'Product Name',
     price = 0,
     compare_price = 0,
-    rating = 0,
-    category_name = 'Luxury',
-    short_description = 'Elegant fashion piece from our exclusive collection',
+    category_name = 'Uncategorized',
+    short_description = '',
+    description = '',
     is_featured = false,
-    is_active = true,
     images = [],
+    stock_quantity = null // Add this if available from your API
   } = product || {};
 
-  const getImageUrl = () => {
-    try {
-      const primaryImage = images.find((img) => img?.is_primary) || images[0];
-      if (primaryImage?.image_url) {
-        return `https://saraicollection.pythonanywhere.com/static/images/${primaryImage.image_url}`;
-      }
-    } catch (e) {
-      console.error('Error processing image:', e);
-    }
-    return '/assets/images/placeholder.jpeg';
+  const imageUrl = images.length > 0 
+    ? `https://saraicollection.pythonanywhere.com/static/images/${images[0].image_url}`
+    : defaultImage;
+
+  const formatPrice = (amount) => {
+    return parseFloat(amount || 0).toFixed(2);
   };
 
-  const imageUrl = getImageUrl();
-
-  const renderRating = () => {
-    const stars = [];
-    const fullStars = Math.floor(rating);
-    const hasHalfStar = rating % 1 >= 0.5;
-
-    for (let i = 1; i <= 5; i++) {
-      if (i <= fullStars) {
-        stars.push(<FaStar key={i} className="text-gold" />);
-      } else if (i === fullStars + 1 && hasHalfStar) {
-        stars.push(<FaStar key={i} className="text-gold" />);
-      } else {
-        stars.push(<FaRegStar key={i} className="text-gold" />);
-      }
+  const handleQuantityChange = (change) => {
+    const newQuantity = quantity + change;
+    if (newQuantity >= 1 && (stock_quantity === null || newQuantity <= stock_quantity)) {
+      setQuantity(newQuantity);
     }
-    return stars;
   };
 
-  const handleAddToCart = async (e) => {
-    e.preventDefault(); // Prevent default link behavior
-    e.stopPropagation(); // Stop event bubbling
+const handleAddToCart = async () => {
+  const token = localStorage.getItem('token');
+  if (!token) {
+    toast.error('Please login to add items to cart');
+    navigate('/signin');
+    return;
+  }
+
+  setIsAddingToCart(true);
+  const formData = new FormData();
+  formData.append('product_id', id);
+  formData.append('quantity', quantity);
+
+  try {
+    await axios.post(
+      'https://saraicollection.pythonanywhere.com/api/cart/add',
+      formData,
+      {
+        headers: {
+          Authorization: `Bearer ${token}`,
+          'Content-Type': 'multipart/form-data',
+        },
+      }
+    );
+
+    const response = await axios.get('https://saraicollection.pythonanywhere.com/api/cart', {
+      headers: { Authorization: `Bearer ${token}` },
+    });
+    console.log('Cart API response:', response.data); // Debug
+    const newCartCount = response.data?.items?.length || 0;
+
+    toast.success(`${quantity} ${name}${quantity > 1 ? 's' : ''} added to cart`);
+    window.dispatchEvent(new CustomEvent('cartUpdated', { detail: { count: newCartCount } }));
     
-    try {
-      const token = localStorage.getItem('token');
-      if (!token) {
-        navigate('/signin', { state: { from: 'cart' } });
-        return;
-      }
+    setShowQuantityControls(false);
+    setQuantity(1);
+  } catch (err) {
+    console.error('Add to cart error:', err);
+    if (err.response?.status === 401) {
+      toast.error('Session expired. Please login again.');
+      localStorage.removeItem('token');
+      localStorage.removeItem('user');
+      navigate('/signin');
+    } else if (err.response?.status === 405) {
+      toast.error('Server configuration error. Please contact support.');
+    } else {
+      toast.error(err.response?.data?.error || 'Failed to add to cart');
+    }
+  } finally {
+    setIsAddingToCart(false);
+  }
+};
 
-      setIsAdding(true);
-
-      const formData = new FormData();
-      formData.append('product_id', id);
-      formData.append('quantity', '1');
-
-      await axios.post(
-        'https://saraicollection.pythonanywhere.com/api/cart/add',
-        formData,
-        {
-          headers: {
-            Authorization: `Bearer ${token}`,
-            'Content-Type': 'multipart/form-data',
-          },
-        }
-      );
-
-      toast.success(`${name} added to cart!`);
-      navigate('/cart');
-
-      if (onCartUpdate) {
-        onCartUpdate();
-      } else {
-        const response = await axios.get('https://saraicollection.pythonanywhere.com/api/cart', {
-          headers: { Authorization: `Bearer ${token}` },
-        });
-        window.dispatchEvent(
-          new CustomEvent('cartUpdated', { detail: { count: response.data?.items?.length || 0 } })
-        );
-      }
-    } catch (err) {
-      console.error('Error adding to cart:', err);
-      const errorMessage = err.response?.data?.error || 'Failed to add item to cart. Please try again.';
-      if (err.response?.status === 401) {
-        localStorage.removeItem('token');
-        localStorage.removeItem('user');
-        navigate('/signin', { state: { from: 'cart' } });
-      } else {
-        toast.error(errorMessage);
-      }
-    } finally {
-      setIsAdding(false);
+  const toggleQuantityControls = () => {
+    setShowQuantityControls(!showQuantityControls);
+    if (!showQuantityControls) {
+      setQuantity(1); // Reset quantity when showing controls
     }
   };
 
   return (
-    <div className={`sarai-product-card ${isSoldOut ? 'sold-out' : ''}`} onClick={() => !isSoldOut && navigate(`/products/${id}`)}>
-      <div className="card-image-container">
-        {!is_active && <div className="sold-out-overlay">SOLD OUT</div>}
-        <div
-          className="card-image"
-          style={{
-            backgroundImage: imageUrl
-              ? `linear-gradient(to bottom, rgba(26, 26, 26, 0.2), rgba(43, 32, 0, 0.7)), url(${imageUrl})`
-              : 'linear-gradient(135deg, #1a1a1a 0%, #2b2000 50%, #1a1a1a 100%)',
-            opacity: !is_active ? 0.7 : 1
+    <div className="card h-100 border-0 shadow-sm position-relative">
+      <div className="position-relative" style={{ height: '200px', overflow: 'hidden' }}>
+        <img 
+          src={imageUrl}
+          alt={name}
+          className="w-100 h-100 object-fit-cover"
+          onError={(e) => {
+            e.target.src = defaultImage;
+            e.target.className = 'w-100 h-100 object-fit-contain p-3';
           }}
-        >
-          {is_featured && <span className="featured-badge">Exclusive</span>}
-          {isSoldOut && <span className="sold-out-badge">Sold Out</span>}  {/* Added Sold Out badge */}
-          <button 
-            className="wishlist-btn" 
-            aria-label="Add to wishlist"
-            onClick={(e) => {
-              e.stopPropagation();
-              // Add wishlist functionality here
-            }}
-          >
-            <FaHeart />
-          </button>
-        </div>
+          loading="lazy"
+        />
+        {is_featured && (
+          <span className="position-absolute top-0 start-0 bg-danger text-white px-2 py-1 small">
+            Featured
+          </span>
+        )}
+        {stock_quantity !== null && stock_quantity <= 5 && stock_quantity > 0 && (
+          <span className="position-absolute top-0 end-0 bg-warning text-dark px-2 py-1 small">
+            Only {stock_quantity} left
+          </span>
+        )}
+        {stock_quantity === 0 && (
+          <div className="position-absolute top-0 start-0 w-100 h-100 d-flex align-items-center justify-content-center bg-dark bg-opacity-50">
+            <span className="badge bg-secondary fs-6">Out of Stock</span>
+          </div>
+        )}
       </div>
-
-      <div className="card-details">
-        <div className="category-rating">
-          <span className="category">{category_name}</span>
-          <div className="rating">{renderRating()}</div>
+      
+      <div className="card-body">
+        <div className="d-flex justify-content-between mb-2">
+          <span className="badge bg-secondary">{category_name}</span>
         </div>
-
-        <h3 className="product-title">
-          <Link to={`/products/${id}`} onClick={(e) => e.stopPropagation()}>{name}</Link>
-        </h3>
-
-        <p className="product-description">
-          {short_description}
+        
+        <h5 className="card-title">
+          <Link to={`/products/${id}`} className="text-decoration-none text-dark">
+            {name}
+          </Link>
+        </h5>
+        
+        <p className="card-text text-muted small mb-2">
+          {short_description || `${description.substring(0, 60)}...`}
         </p>
-
-        <div className="price-cart">
-          <div className="price">
-            <span className="current-price">KES {price.toLocaleString()}</span>
+        
+        <div className="d-flex justify-content-between align-items-center mb-2">
+          <div>
+            <span className="fw-bold text-primary">
+              KES {formatPrice(price)}
+            </span>
             {compare_price > price && (
-              <span className="original-price">KES {compare_price.toLocaleString()}</span>
+              <span className="text-muted text-decoration-line-through ms-2">
+                KES {formatPrice(compare_price)}
+              </span>
             )}
           </div>
-          <button
-            className="add-to-cart"
-            onClick={(e) => handleAddToCart(e)}
-            aria-label={`Add ${name} to cart`}
-            disabled={isAdding}
-          >
-            {isAdding ? <FaSpinner className="animate-spin" /> : <FaShoppingCart />}
-          </button>
+        </div>
+
+        {/* Quantity Controls and Add to Cart */}
+        <div className="mt-auto">
+          {!showQuantityControls ? (
+            <div className="d-flex gap-2">
+              <button
+                className="btn btn-sm btn-outline-danger flex-grow-1"
+                onClick={toggleQuantityControls}
+                disabled={stock_quantity === 0}
+              >
+                <FaShoppingCart className="me-1" />
+                Add to Cart
+              </button>
+            </div>
+          ) : (
+            <div className="d-flex flex-column gap-2">
+              {/* Quantity Selector */}
+              <div className="d-flex align-items-center justify-content-center bg-light rounded p-2">
+                <button
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={() => handleQuantityChange(-1)}
+                  disabled={quantity <= 1}
+                  style={{ width: '32px', height: '32px' }}
+                >
+                  <FaMinus size={10} />
+                </button>
+                <span className="mx-3 fw-bold" style={{ minWidth: '30px', textAlign: 'center' }}>
+                  {quantity}
+                </span>
+                <button
+                  className="btn btn-sm btn-outline-secondary"
+                  onClick={() => handleQuantityChange(1)}
+                  disabled={stock_quantity !== null && quantity >= stock_quantity}
+                  style={{ width: '32px', height: '32px' }}
+                >
+                  <FaPlus size={10} />
+                </button>
+              </div>
+
+              {/* Action Buttons */}
+              <div className="d-flex gap-2">
+                <button
+                  className="btn btn-sm btn-secondary flex-grow-1"
+                  onClick={toggleQuantityControls}
+                  disabled={isAddingToCart}
+                >
+                  Cancel
+                </button>
+                <button
+                  className="btn btn-sm btn-danger flex-grow-1"
+                  onClick={handleAddToCart}
+                  disabled={isAddingToCart || stock_quantity === 0}
+                >
+                  {isAddingToCart ? (
+                    <>
+                      <FaSpinner className="fa-spin me-1" />
+                      Adding...
+                    </>
+                  ) : (
+                    <>
+                      Add ({quantity})
+                    </>
+                  )}
+                </button>
+              </div>
+
+              {/* Total Price Display */}
+              {quantity > 1 && (
+                <div className="text-center">
+                  <small className="text-muted">
+                    Total: <span className="fw-bold">KES {formatPrice(price * quantity)}</span>
+                  </small>
+                </div>
+              )}
+            </div>
+          )}
         </div>
       </div>
     </div>
