@@ -18,7 +18,8 @@ import UserDetails from './components/UsersDetails.jsx';
 import AddProductForm from './components/AddProductForm';
 import EditProductForm from './components/EditProductForm.jsx';
 import { ToastContainer } from 'react-toastify';
-
+import OrderHistory from './components/OrderHistory';
+import OrderDetails from './components/OrderDetails';
 
 function App() {
   return (
@@ -43,7 +44,10 @@ function App() {
             <Route path="/payment" element={<Makepayment/>} />
             <Route path="/payment-success" element={<PaymentSuccess/>} />
             <Route path='/admin/products/new' element={<AddProductForm />} /> 
-            <Route path="/admin/products/edit/:id" element={<EditProductForm />} />     
+            <Route path="/admin/products/edit/:id" element={<EditProductForm />} />
+
+            <Route path="/orders" element={<OrderHistory />} />
+            <Route path="/orders/:orderId" element={<OrderDetails />} />  
 
           </Routes>
         </main>

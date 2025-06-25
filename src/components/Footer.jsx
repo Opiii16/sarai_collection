@@ -48,8 +48,8 @@ const Footer = () => {
           <div className="footer-section">
             <h4 className="footer-heading">Contact Info</h4>
             <p className="footer-text">
-              <i className="fas fa-map-marker-alt"></i> 123 Luxury Avenue, Fashion District<br />
-              New York, NY 10001<br />
+              <i className="fas fa-map-marker-alt"></i> Roysambu, Fashion District<br />
+              Nairobi, NRB 10001<br />
               <i className="fas fa-phone"></i> 0727934184<br />
               <i className="fas fa-envelope"></i> saraicollection@gmail.com
             </p>

@@ -1,0 +1,36 @@
+.order-history-container {
+  padding: 2rem;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.spin {
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  from { transform: rotate(0deg); }
+  to { transform: rotate(360deg); }
+}
+
+.table-hover tbody tr:hover {
+  background-color: rgba(0, 0, 0, 0.05);
+}
+
+.text-capitalize {
+  text-transform: capitalize;
+}
+
+/* For dark theme support */
+[data-theme="dark"] .table {
+  color: #f8f9fa;
+  background-color: #212529;
+}
+
+[data-theme="dark"] .table-dark {
+  background-color: #343a40;
+}
+
+[data-theme="dark"] .table-hover tbody tr:hover {
+  background-color: rgba(255, 255, 255, 0.05);
+}
