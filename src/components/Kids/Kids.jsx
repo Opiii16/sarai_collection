@@ -1,9 +1,13 @@
 import React from 'react';
 import './Kids.css';
+import Navbar from '../Navbar/Navbar';
 
 const KidsCollection = () => {
+
   return (
+
     <div className="kids-collection">
+      <Navbar />
       <header className="collection-header">
         <h1>SARAI KIDS</h1>
         <p className="tagline">Where Little Personalities Shine Bright</p>
@@ -13,6 +17,7 @@ const KidsCollection = () => {
           <button className="age-btn">9-12 Years</button>
         </div>
       </header>
+      
       
       <section className="hero-banner">
         <div className="hero-text">

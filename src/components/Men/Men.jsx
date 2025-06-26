@@ -1,9 +1,11 @@
 import React from 'react';  
 import './Men.css';  
+import Navbar from '../Navbar/Navbar';
 
 const MenCollection = () => {  
   return (  
     <div className="men-collection">  
+        <Navbar />  
       <header className="collection-header">  
         <h1>SARAI MEN</h1>  
         <p className="tagline">Redefining Masculine Elegance</p>  

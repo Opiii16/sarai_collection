@@ -1,6 +1,6 @@
 .ladies-collection {
   font-family: 'Montserrat', sans-serif;
-  color: #333;
+  color: #20202033;
   max-width: 1200px;
   margin: 0 auto;
 }
@@ -8,14 +8,14 @@
 .collection-header {
   text-align: center;
   padding: 2rem 0;
-  background: linear-gradient(to right, #f8f1ff, #fae8ff);
+  background: linear-gradient(to right, #e3f302, #fae8ff);
 }
 
 .collection-header h1 {
   font-size: 3rem;
   font-weight: 700;
   letter-spacing: 0.2rem;
-  color: #5e2ced;
+  color: #fded0b;
 }
 
 .tagline {
@@ -59,7 +59,7 @@
 }
 
 .shop-now {
-  background: #ff4d8d;
+  background: #222222;
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -70,7 +70,7 @@
 }
 
 .shop-now:hover {
-  background: #e60073;
+  background: #eeff02;
   transform: translateY(-2px);
 }
 
@@ -105,7 +105,7 @@
 }
 
 .trend-alert {
-  background: #f3e5ff;
+  background: #f1ee07;
   padding: 2rem;
   text-align: center;
   margin: 2rem 0;
@@ -157,13 +157,13 @@
 .cta-section {
   text-align: center;
   padding: 3rem 0;
-  background: linear-gradient(45deg, #e0f004, #a485fd);
+  background: linear-gradient(45deg, #e0f004, #2e2e2e);
   color: white;
 }
 
 .join-club {
   background: white;
-  color: #5e2ced;
+  color: #f3ef06;
   border: none;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -175,6 +175,6 @@
 .collection-footer {
   text-align: center;
   padding: 2rem 0;
-  background: #333;
-  color: white;
+  background: #f3ef02;
+  color: rgb(7, 7, 7);
 }

@@ -15,7 +15,7 @@
 .collection-header h1 {
   font-size: 3rem;
   font-weight: 700;
-  color: #ff6699;
+  color: #fdf905;
   margin-bottom: 0.5rem;
 }
 
@@ -34,7 +34,7 @@
 
 .age-btn {
   background: white;
-  border: 2px solid #ffb6c1;
+  border: 2px solid #faf60a;
   padding: 0.5rem 1rem;
   border-radius: 20px;
   cursor: pointer;
@@ -42,9 +42,9 @@
 }
 
 .age-btn.active {
-  background: #ff6699;
+  background: #f8f404;
   color: white;
-  border-color: #ff6699;
+  border-color: #050505;
 }
 
 .hero-banner {
@@ -81,11 +81,11 @@
 .hero-text h2 {
   font-size: 2.2rem;
   margin-bottom: 1rem;
-  color: #ff3366;
+  color: #fff133;
 }
 
 .shop-now {
-  background: #ff6699;
+  background: #fcff66;
   color: white;
   border: none;
   padding: 1rem 2rem;
@@ -98,14 +98,14 @@
 }
 
 .shop-now:hover {
-  background: #ff3366;
+  background: #f8f402;
   transform: translateY(-2px);
   box-shadow: 0 4px 8px rgba(255,51,102,0.2);
 }
 
 .section-title {
   text-align: center;
-  color: #ff6699;
+  color: #faea05;
   margin: 2rem 0;
   font-size: 1.8rem;
   position: relative;
@@ -116,7 +116,7 @@
   display: block;
   width: 80px;
   height: 3px;
-  background: #ffb6c1;
+  background: #f4f801;
   margin: 0.5rem auto;
 }
 
@@ -163,7 +163,7 @@
 
 .category-card h3 {
   padding: 1rem 1rem 0;
-  color: #ff3366;
+  color: #f0e003;
 }
 
 .category-card p {
@@ -236,7 +236,7 @@
   left: 0;
   right: 0;
   bottom: 0;
-  background: rgba(255,102,153,0.8);
+  background: rgba(252, 248, 2, 0.8);
   border-radius: 10px;
 }
 
@@ -251,7 +251,7 @@
 
 .guide-btn {
   background: white;
-  color: #ff6699;
+  color: #faf606;
   border: none;
   padding: 0.8rem 1.5rem;
   border-radius: 20px;
@@ -263,7 +263,7 @@
 .cta-section {
   text-align: center;
   padding: 3rem 0;
-  background: linear-gradient(45deg, #ff6699, #ff99bb);
+  background: linear-gradient(45deg, #e7eb04, #949209);
   color: white;
   border-radius: 10px;
   margin: 2rem;
@@ -271,7 +271,7 @@
 
 .join-club {
   background: white;
-  color: #ff6699;
+  color: #f3ef09;
   border: none;
   padding: 1rem 2rem;
   font-size: 1rem;
@@ -290,5 +290,5 @@
 .collection-footer {
   text-align: center;
   padding: 2rem 0;
-  color: #ff6699;
+  color: #faf608;
 }

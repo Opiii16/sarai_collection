@@ -1,9 +1,12 @@
 import React from 'react';
 import './Ladies.css';
+import Navbar from '../Navbar/Navbar';
+
 
 const LadiesCollection = () => {
   return (
     <div className="ladies-collection">
+      <Navbar />
       <header className="collection-header">
         <h1>SARAI COLLECTION</h1>
         <p className="tagline">Where Elegance Meets Edge</p>
